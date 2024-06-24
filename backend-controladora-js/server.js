@@ -4,7 +4,9 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://10.22.165.29:8081"
+  //Esto debe referenciarse a sí mismo
+  //origin: "http://auto-backup-vuejs-1:8081"
+  origin: process.env.ABKP_BACKEND_HOST
 };
 
 app.use(cors(corsOptions));

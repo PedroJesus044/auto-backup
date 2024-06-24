@@ -381,9 +381,11 @@
       },
 
       retrievebackups() {
+        console.log("Trayendo backups");
         BackupDataService.getAll()
           .then(response => {
             this.backups = response.data;
+
             console.log(response.data);
           })
           .catch(e => {

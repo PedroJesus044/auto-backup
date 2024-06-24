@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "localhost",
-  USER: "auto-backup",
-  PASSWORD: "auto-backup",
-  DB: "auto-backup",
+  HOST: process.env.ABKP_DB_HOST,
+  USER: process.env.ABKP_DB_USER,
+  PASSWORD: process.env.ABKP_DB_PASS,
+  DB: process.env.ABKP_DB_NAME,
   dialect: "mysql",
   pool: {
     max: 5,

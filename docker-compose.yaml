@@ -40,16 +40,6 @@ services:
     profiles:
       - donotstart
 
-  mariadb:
-    image: mariadb:11.2.4
-    ports:
-      - "3306:3306"
-    environment:
-      MARIADB_ROOT_PASSWORD: auto-backup
-      MARIADB_DATABASE: auto-backup
-      MARIADB_USER: auto-backup
-      MARIADB_PASSWORD: auto-backup
-
   apache:
     ports:
       - "80:80"
@@ -68,36 +58,70 @@ services:
     profiles:
       - donotstart
 
-  flask:
+  mariadb:
+    image: mariadb:11.2.4
+    environment:
+      MARIADB_ROOT_PASSWORD: auto-backup
+      MARIADB_DATABASE: auto-backup
+      MARIADB_USER: auto-backup
+      MARIADB_PASSWORD: auto-backup
+    expose:
+      - "3306"
     ports:
-      - "5000:5000"
+      - "3306:3306"
+
+  flask:
     build:
       context: .
       dockerfile: flask.Dockerfile
     environment:
       - FLASK_APP=main
       - FLASK_ENV=development
-      - ABKP_FRONTEND_HOST=http://10.22.165.29:8081
+      #- FLASK_CORS_OPTIONS=http://auto-backup-vuejs-1:8081
+      - FLASK_CORS_OPTIONS=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
     command: flask run --host=0.0.0.0
+    expose:
+      - "5000"
+    ports: #De momento se debe mapear el puerto. Posible cors issue
+      - "5000:5000"
 
-  node:
+  express:
     build:
       context: .
-      dockerfile: node.Dockerfile
+      dockerfile: express.Dockerfile
     user: "node"
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
+      - ABKP_BACKEND_HOST=http://auto-backup-vuejs-1:8081
+      - ABKP_DB_HOST=auto-backup-mariadb-1
+      - ABKP_DB_USER=auto-backup
+      - ABKP_DB_PASS=auto-backup
+      - ABKP_DB_NAME=auto-backup
     volumes:
-      - ./controladora-js/:/home/node/app
+      - ./backend-controladora-js/:/home/node/app
     expose:
-      - "8081"
-    ports: # use if it is necessary to expose the container to the host machine
-      - "8001:8001"
-    command: "npm init"
-    profiles:
-      - donotstart
+      - "8080"
+    ports: #De momento se deben mapear los puertos
+      - "8080:8080"
+    command: "node server.js"
+
+  vuejs:
+    build:
+      context: .
+      dockerfile: vuejs.Dockerfile
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - ALLOWED_HOSTS=auto-backup-vuejs-1
+      - ABKP_AXIOS_BASEURL="http://auto-backup-express-1:8080/api"
+    volumes:
+      - ./frontend-controladora-js/:/home/node/app
+    ports: #Mapear este puerto para ver la consola
+      - "8081:8081"
+    command: "npm run serve"
