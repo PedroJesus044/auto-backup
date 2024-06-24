@@ -212,12 +212,13 @@
         chartArray: [
           {
             chartData: {
-            labels: [ '17/06/2024', '18/06/2024', '19/06/2024', '20/06/2024', '21/06/2024', '22/06/2024' ],
-            datasets: [ 
-              {label: 'prueba.sql', data: [66560, 152400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#007bff", backgroundColor: "#007bff"},
-              {label: 'codigo.tar.gz', data: [150298, 102400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#28a745", backgroundColor: "#28a745"},
-              {label: 'archivo_final.tar.gz', data: [51200, 204800, 66560, 66560, 102400, 350000], tension: 0.3 , borderColor: "#ffc107", backgroundColor: "#ffc107"}
-            ]
+              //Las labels deben ser el createdAt
+              labels: [ '17/06/2024', '18/06/2024', '19/06/2024', '20/06/2024', '21/06/2024', '22/06/2024' ],
+              datasets: [
+                {label: 'prueba.sql', data: [66560, 152400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#007bff", backgroundColor: "#007bff"},
+                {label: 'codigo.tar.gz', data: [150298, 102400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#28a745", backgroundColor: "#28a745"},
+                {label: 'archivo_final.tar.gz', data: [51200, 204800, 66560, 66560, 102400, 350000], tension: 0.3 , borderColor: "#ffc107", backgroundColor: "#ffc107"}
+              ]
             },
             chartOptions: {
               responsive: true,
@@ -226,7 +227,7 @@
           }
         ],*/
 
-        chartArray: null,
+        chartArray: [],
         
         backup_traces: [
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
@@ -261,12 +262,38 @@
     },
     methods: {
 
+      color_by_id(id){
+        switch (id) {
+          case 0:
+            return "#007bff";
+          case 1:
+            return "#6610f2";
+          case 2:
+            return "#28a745";
+          case 3:
+            return "#dc3545";
+          case 4:
+            return "#ffc107";
+          case 5:
+            return "#fd7e14";
+          case 6:
+            return "#17a2b8";
+          case 7:
+            return "#e83e8c";
+          case 8:
+            return "#6f42c1";
+          case 9:
+            return "#20c997";
+          default:
+            return "#007bff";
+        }
+      },
+
       async retreiveHistoryFile(file){
         var data = {
           id_backup: this.currentBackup.id,
           file: file
         }
-
       return await new Promise((resolve, reject) => {
           console.log(data);
           FileTracesDataService.historyFile(data)
@@ -278,38 +305,47 @@
           });
         });
       },
-      /*async retreiveHistoryFile(file){
-        var data = {
-          id_backup: this.currentBackup.id,
-          file: file
-        }
-
-        FileTracesDataService.historyFile(data).then(async response => {
-          console.log(response.data)
-          return await response.data;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      },*/
 
       async retreiveDiffFiles(){
         var data = {
           id_backup: this.currentBackup.id
         }
-
         await FileTracesDataService.diffFiles(data).then(async response => {
           let aux = await response.data;
-          let labels = [];
+          let listed_labels = [];
+          let file_name = "";
+          let file_sizes = [];
+          let chartArrayItem = null;
+          let auxArrayItem = [];
           for (let i in aux){
-            console.log(aux[i].file);
-            let local_history = await this.retreiveHistoryFile(aux[i].file);
+            file_name = aux[i].file;
+            let local_history = await this.retreiveHistoryFile(file_name);
+            file_sizes = [];
+            listed_labels = [];
+            
             for (let j in local_history){
-              labels.push(local_history[j]);
+              listed_labels.push(local_history[j].createdAt);
+              file_sizes.push(local_history[j].size);
             }
-          }
-          console.log(labels);
+            console.log(i);
+            let color = this.color_by_id(parseInt(i));
 
+            chartArrayItem = {
+              chartData: {
+                labels: listed_labels,
+                datasets: [
+                  {label: file_name, data: file_sizes, tension: 0.3 , borderColor: color, backgroundColor: color}
+                ]
+              },
+              chartOptions: {
+                responsive: true,
+              }
+            }
+            auxArrayItem.push(chartArrayItem);
+          }
+          console.log(auxArrayItem);
+          this.chartArray = auxArrayItem;
+          
           })
           .catch(e => {
             console.log(e);
