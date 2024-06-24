@@ -409,7 +409,8 @@
           if(response.data === '[ALL OK]') this.status[index] = 'success';
           if(response.data === '[NOT OK]') this.status[index] = 'failure';
           if(response.data === '[FINISHED WITH ERRORS]') this.status[index] = 'warning';
-          
+          this.retreiveDiffFiles();
+          this.getBackupHistory(5);
         });
       },
       
