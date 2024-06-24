@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect
-import autobackup
+import autobackup, os
 from time import sleep
 from random import randint
 
@@ -12,13 +12,8 @@ def hello_world():
 
         resultado = autobackup.main(id_backup)
 
-        if(resultado=='[OK]'):
-            return resultado, 200, {'Access-Control-Allow-Origin':'*'}
-        elif(resultado=='[NOT OK]'):
-            return resultado, 200, {'Access-Control-Allow-Origin':'*'}
-        else:
-            return resultado, 200, {'Access-Control-Allow-Origin':'*'}
+        return resultado, 200, {'Access-Control-Allow-Origin':os.environ['ABKP_FRONTEND_HOST']}
         
         #Ojo: Debemos poner el cors apuntando al origen del axios
     except:
-        return 'Falla!', 200, {'Access-Control-Allow-Origin':'*'}
+        return 'Flask', 200, {'Access-Control-Allow-Origin':os.environ['ABKP_FRONTEND_HOST']}

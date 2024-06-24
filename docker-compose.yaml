@@ -77,7 +77,8 @@ services:
     environment:
       - FLASK_APP=main
       - FLASK_ENV=development
-      - ABKP_DB_HOST=kibana-mariadb-1
+      - ABKP_FRONTEND_HOST=http://10.22.165.29:8081
+      - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup

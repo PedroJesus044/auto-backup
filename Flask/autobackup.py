@@ -35,7 +35,6 @@ def main(backup):
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         return ('Error connecting to MariaDB Platform:')
-        sys.exit(1)
 
     # Get Cursor
     cur = conn.cursor()
@@ -82,6 +81,7 @@ def main(backup):
     for i in range(0,reintentos):
         query = "INSERT INTO backup_traces (id_backup, last_status) values (" + backup + ", '[RUNNING]')"
         cur.execute(query)
+        conn.commit()
         try:
             #Arreglo de comandos final
             command_book = []
