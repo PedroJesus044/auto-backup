@@ -159,35 +159,41 @@
         </div>
       </div>
       <div v-if="currentBackup" class="col">
-          <h4>Stats</h4>
-          <h5>{{ currentBackup.name }}</h5><br>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Status</th>
-                <th scope="col">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(backup_trace, index) in backup_traces"
-                  :key="index">
-                <td>{{ backup_trace.traza.last_status }}</td>
-                <td>{{ backup_trace.traza.createdAt }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div v-if="chartArray">
-            <div v-for="(item, index) in chartArray"
-            :key="index">
-              <Line
-                id="my-chart-id"
-                :options="item.chartOptions"
-                :data="item.chartData"
-              />
-
+        <div v-if="backup_traces">
+            <h4>Stats</h4>
+            <div v-if="backup_traces">
+              <h5>{{ currentBackup.name }}</h5><br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Status</th>
+                    <th scope="col">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(backup_trace, index) in backup_traces"
+                      :key="index">
+                    <td>{{ backup_trace.last_status }}</td>
+                    <td>{{ backup_trace.createdAt }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
+
+            <div v-if="chartArray">
+              <div v-for="(item, index) in chartArray"
+              :key="index">
+                <Line
+                  id="my-chart-id"
+                  :options="item.chartOptions"
+                  :data="item.chartData"
+                />
+              </div>
+            </div>
+        </div>
+        <div v-else>
+          <h3>Run this job to start...</h3>
+        </div>
       </div>
     </div>
   </template>
@@ -196,6 +202,7 @@
   import MetadataDataService from "../services/MetadataDataService";
   import BackupDataService from "../services/BackupDataService";
   import FileTracesDataService from "../services/FileTracesDataService";
+  import BackupTracesDataService from "../services/BackupTracesDataService";
   import axios from "axios";
   import { Line } from 'vue-chartjs'
   import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement} from 'chart.js'
@@ -229,7 +236,7 @@
 
         chartArray: [],
         
-        backup_traces: [
+        /*backup_traces: [
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[ALL OK]", createdAt: "2024-06-21 18:39:57.000"}},
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
@@ -238,7 +245,10 @@
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[FINISHED WITH ERRORS]", createdAt: "2024-06-21 18:39:57.000"}},
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
           {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[ALL OK]", createdAt: "2024-06-21 18:39:57.000"}}
-        ],
+        ],*/
+
+        backup_traces: null,
+
         backups: [],
         status: [],
         currentBackup: null,
@@ -261,6 +271,24 @@
       };
     },
     methods: {
+      async getBackupHistory(max){
+        var data = {
+          id_backup: this.currentBackup.id,
+          max: max
+        }
+
+      this.backup_traces = await new Promise((resolve, reject) => {
+          console.log(data);
+          BackupTracesDataService.backupHistory(data)
+          .then(response => {
+             resolve(response.data);
+          })
+          .catch(e => {
+            reject(e);
+          });
+        });
+
+      },
 
       color_by_id(id){
         switch (id) {
@@ -393,7 +421,7 @@
               this.noMetadataExists = true;
               this.currentMetadata = response.data;
               await this.retreiveDiffFiles();
-              console.log(this.currentMetadata);
+              await this.getBackupHistory(5);
             }else{
               this.currentMetadata = {
               id_backup: this.currentBackup.id,

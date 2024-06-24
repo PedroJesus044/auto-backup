@@ -1,5 +1,5 @@
 const db = require("../models");
-const FileTrace = db.file_trace;
+const BackupTrace = db.backup_trace;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -25,7 +25,7 @@ exports.create = (req, res) => {
   };
 
   // Save Tutorial in the database
-  FileTrace.create(codigo)
+  BackupTrace.create(codigo)
     .then(data => {
       res.send(data);
     })
@@ -42,7 +42,7 @@ exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  FileTrace.findAll({ where: condition })
+  BackupTrace.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
@@ -58,7 +58,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  FileTrace.findByPk(id)
+  BackupTrace.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
@@ -79,7 +79,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  FileTrace.update(req.body, {
+  BackupTrace.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -105,7 +105,7 @@ exports.updateParallelism = (req, res) => {
   const no_bloque = req.body.no_bloque;
   const paralelo  = req.body.paralelo;
 
-  FileTrace.update({paralelo: paralelo}, {
+  BackupTrace.update({paralelo: paralelo}, {
     where: { id_backup: id_backup,  no_bloque: no_bloque}
   })
     .then(num => {
@@ -130,7 +130,7 @@ exports.updateParallelism = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  FileTrace.destroy({
+  BackupTrace.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -153,7 +153,7 @@ exports.delete = (req, res) => {
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  FileTrace.destroy({
+  BackupTrace.destroy({
     where: {},
     truncate: false
   })
@@ -178,7 +178,7 @@ exports.getAllCodeFromBackup = (req, res) => {
     return;
   }*/
 
-  FileTrace.findAll({ where: { id_backup: req.body.id_backup } })
+  BackupTrace.findAll({ where: { id_backup: req.body.id_backup } })
     .then(data => {
       res.send(data);
     })
@@ -200,9 +200,9 @@ exports.getHistoryFromFile = (req, res) => {
     return;
   }
 
-  FileTrace.findAll({
+  BackupTrace.findAll({
       where: { id_backup: req.body.id_backup, file: req.body.file},
-      order: db.Sequelize.col('id')
+      order: db.Sequelize.col('createdAt')
     })
     .then(data => {
       res.send(data);
@@ -240,7 +240,7 @@ exports.getHistoryFromFile = (req, res) => {
 
 
 exports.getDifferentFileNames = (req, res) => {
-const countries = FileTrace.findAll({
+const countries = BackupTrace.findAll({
   where: { id_backup: req.body.id_backup,  },
   group: db.Sequelize.col('file')
   }).then(data => {
@@ -288,27 +288,15 @@ exports.addLineaToSpecificBlock = (req, res) => {
   });
   };
 
-exports.addLineaToSpecificBackup = (req, res) => {
-  /*// Validate request
-  if (!req.body.id_codigo) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }*/
-
-  // Create a Tutorial
-  //id       : req.body.id, Es null
-  let id_backup = req.body.id_backup; //Este sí pídelo
-  let linea = req.body.linea;    //Se pide
-
-  let select_max_ln = `(SELECT COALESCE(MAX(no_linea),0)+1 as new_linea FROM codigos temporal WHERE id_backup=${id_backup})`;
-  let select_max_blk = `(SELECT COALESCE(MAX(no_bloque),0)+1 as new_bloque FROM codigos temporal2 WHERE id_backup=${id_backup})`;
-  console.log(select_max_blk);
-  
-  let sql = `INSERT INTO codigos(id, id_backup, no_bloque, no_linea, linea, run_as_sudo, paralelo) VALUES(null, ${id_backup}, ${select_max_blk}, ${select_max_ln}, '${linea}', false, false)`;
-  console.log(sql);
-  db.sequelize.query(sql).then(data => {
+exports.retreiveLimit = (req, res) => {
+  let max = req.body.max;
+  let id_backup = req.body.id_backup;
+  BackupTrace.findAll({
+    where: { id_backup: id_backup,  },
+    order: [['id', 'desc']],
+    limit: max,
+  })
+  .then(data => {
     res.send(data);
   })
   .catch(err => {
@@ -317,4 +305,4 @@ exports.addLineaToSpecificBackup = (req, res) => {
         err.message || "Some error occurred while retrieving tutorials."
     });
   });
-  };
+};

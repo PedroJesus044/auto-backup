@@ -39,6 +39,7 @@ require("./app/routes/backups.routes")(app);
 require("./app/routes/codigos.routes")(app);
 require("./app/routes/metadatas.routes")(app);
 require("./app/routes/file_traces.routes")(app);
+require("./app/routes/backup_traces.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
