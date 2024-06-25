@@ -75,7 +75,7 @@ services:
     environment:
       - FLASK_APP=main
       - FLASK_ENV=development
-      - FLASK_CORS_OPTIONS=http://auto-backup-vuejs-1:8081
+      - FLASK_CORS_OPTIONS=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
@@ -94,7 +94,7 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
-      - ABKP_BACKEND_HOST=http://auto-backup-vuejs-1:8081
+      - ABKP_BACKEND_HOST=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup

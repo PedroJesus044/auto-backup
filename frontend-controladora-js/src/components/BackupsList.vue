@@ -49,6 +49,7 @@
           </li>
         </ul>
       </div>
+      <form action="">
       <div class="col-md-4">
         <div v-if="currentBackup">
             <h4>Metadata</h4>
@@ -154,6 +155,7 @@
           </div>
         </div>
       </div>
+    </form>
       <div v-if="currentBackup" class="col">
         <div v-if="backup_traces">
             <h4>Stats</h4>
