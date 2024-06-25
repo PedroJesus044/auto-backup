@@ -49,15 +49,14 @@
           </li>
         </ul>
       </div>
-      <form class="col-md-4" action="">
-      <div>
+      <form class="col-md-4" action="/" @submit="addMetadata()">
         <div v-if="currentBackup">
             <h4>Metadata</h4>
             <div>
               <label><strong>Server hostname:</strong></label>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="hostname.com, 192.168.1.15, ..." aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.ip_servidor">
+                    v-model="currentMetadata.ip_servidor" required>
                 </div>
 
               <label><strong>NAS Hostname:</strong></label>
@@ -76,7 +75,7 @@
                 <div v-else>{{ currentMetadata.rash="echo <P4ssw0rd.> | sudo -S " }}</div>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="echo <password> | sudo -S " aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.rash">
+                    v-model="currentMetadata.rash" required>
                 </div>
 
               <label><strong>Server username:</strong></label>
@@ -94,13 +93,13 @@
               <label><strong>Server SSH port:</strong></label>
                 <div class="input-group mb-3">
                   <input type="number" class="form-control" placeholder="22" aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.port">
+                    v-model="currentMetadata.port" required>
                 </div>
 
               <label><strong>Max retry attempts:</strong></label>
                 <div class="input-group mb-3">
                   <input type="number" class="form-control" placeholder="2" aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.reintentos_maximos">
+                    v-model="currentMetadata.reintentos_maximos" required>
                 </div>
             </div>
             <div v-if="noMetadataExists">
@@ -138,7 +137,7 @@
           <div v-else>
             <div>
                 <label><strong>Action:</strong></label><br>
-                <button type="button" class="btn btn-info" @click="addMetadata()">
+                <button type="submit" class="btn btn-info">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
                     <path d="M11 2H9v3h2z"/>
                     <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
@@ -154,7 +153,6 @@
               </div>
           </div>
         </div>
-      </div>
     </form>
       <div v-if="currentBackup" class="col">
         <div v-if="backup_traces">
@@ -524,19 +522,19 @@
         let auxIndex = this.index;
           console.log(data);
     
-          MetadataDataService.create(data)
-            .then(response => {
-              this.currentMetadata = response.data;
-              console.log(response.data);
-              this.submitted = true;
+        MetadataDataService.create(data)
+          .then(response => {
+            this.currentMetadata = response.data;
+            console.log(response.data);
+            this.submitted = true;
 
-              this.retreiveMetadata();
-              this.refreshList();
-              this.setActiveTutorial(auxCurrentBackup, auxIndex);
-            })
-            .catch(e => {
-              console.log(e);
-          });
+            this.retreiveMetadata();
+            this.refreshList();
+            this.setActiveTutorial(auxCurrentBackup, auxIndex);
+          })
+          .catch(e => {
+            console.log(e);
+        });
       },
 
       updateMetadata() {
