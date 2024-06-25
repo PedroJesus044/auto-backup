@@ -63,6 +63,7 @@ services:
       MARIADB_DATABASE: auto-backup
       MARIADB_USER: auto-backup
       MARIADB_PASSWORD: auto-backup
+      TZ: America/Mexico_City
     expose:
       - "3306"
     ports:
@@ -80,6 +81,7 @@ services:
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
+      - TZ=America/Mexico_City
     command: flask run --host=0.0.0.0
     expose:
       - "5000"
@@ -99,6 +101,7 @@ services:
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
+      - TZ=America/Mexico_City
     volumes:
       - ./backend-controladora-js/:/home/node/app
     expose:
@@ -117,6 +120,7 @@ services:
       - NODE_ENV=production
       - ALLOWED_HOSTS=auto-backup-vuejs-1
       - ABKP_AXIOS_BASEURL="http://auto-backup-express-1:8080/api"
+      - TZ=America/Mexico_City
     volumes:
       - ./frontend-controladora-js/:/home/node/app
     ports: #Mapear este puerto para ver la consola
