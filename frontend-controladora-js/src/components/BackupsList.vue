@@ -92,13 +92,13 @@
 
               <label><strong>Server SSH port:</strong></label>
                 <div class="input-group mb-3">
-                  <input type="number" class="form-control" placeholder="22" aria-label="Username" aria-describedby="basic-addon1"
+                  <input type="number" class="form-control" placeholder="22" aria-label="Username" aria-describedby="basic-addon1" min="1"
                     v-model="currentMetadata.port" required>
                 </div>
 
               <label><strong>Max retry attempts:</strong></label>
                 <div class="input-group mb-3">
-                  <input type="number" class="form-control" placeholder="2" aria-label="Username" aria-describedby="basic-addon1"
+                  <input type="number" class="form-control" placeholder="2" aria-label="Username" aria-describedby="basic-addon1" min="1" max="5"
                     v-model="currentMetadata.reintentos_maximos" required>
                 </div>
             </div>

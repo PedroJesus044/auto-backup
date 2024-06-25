@@ -1,3 +1,4 @@
+const { or } = require("sequelize");
 const db = require("../models");
 const Metadata = db.metadata;
 const Op = db.Sequelize.Op;
@@ -5,9 +6,9 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.id_backup) {
+  if (!req.body.id_backup || !req.body.port || !req.body.reintentos_maximos) {
     res.status(400).send({
-      message: "La metadata debe pertenecer a un backup"
+      message: "Faltan argumentos"
     });
     return;
   }

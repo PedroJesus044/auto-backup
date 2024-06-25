@@ -59,9 +59,14 @@ def main(backup):
     cur.execute("SELECT rash from metadatas where id_backup=?", (backup,))
     rash = cur.fetchone()[0]
 
-    #Selecciona la cantidad de bloques
+    '''#Selecciona la cantidad de bloques
     cur.execute("SELECT COUNT(*) as cant_bloques from (SELECT * from codigos where id_backup=? group by no_bloque) cant_bloques", (backup,))
-    cant_bloques = int(cur.fetchone()[0])
+    cant_bloques = int(cur.fetchone()[0])'''
+
+    #No seleccionaremos la cantidad de bloques, en vez de eso seleccionaremos los distintos no_bloques
+    cur.execute("SELECT DISTINCT no_bloque as block_array from codigos where id_backup=?", (backup,))
+    array_bloques = cur.fetchall()
+    global test_logger
 
     #Selecciona la cantidad de reintentos
     cur.execute("SELECT reintentos_maximos from metadatas where id_backup=?", (backup,))
@@ -87,14 +92,15 @@ def main(backup):
             command_book = []
 
             #Hace el recorrido por cada uno de los bloques del respaldo especificado
-            for i in range(1,cant_bloques+1):
+            for i in array_bloques:
+                test_logger.info(i[0])
                 #Revisa si el código es paralelo
-                cur.execute("select paralelo from codigos where id_backup=? and no_bloque=? LIMIT 1;", (backup,i,))
+                cur.execute("select paralelo from codigos where id_backup=? and no_bloque=? LIMIT 1;", (backup,i[0],))
                 result = cur.fetchone()
                 paralelo = bool(int(result[0]))
 
                 #Selecciona todas las líneas de código de uno de los bloques
-                cur.execute("select run_as_sudo, linea from codigos where id_backup=? and no_bloque=? order by no_linea", (backup,i,))
+                cur.execute("select run_as_sudo, linea from codigos where id_backup=? and no_bloque=? order by no_linea", (backup,i[0],))
                 aux = []
                 for run_as_sudo, linea in cur:
                     if(run_as_sudo==1):
@@ -130,7 +136,7 @@ def main(backup):
                 conn.close()
                 return(command_book)
         except:
-            global test_logger
+            #global test_logger
             test_logger.critical("Fallo al ejecutar respaldo: ", extra=extra)
             continue
     query = "INSERT INTO backup_traces (id_backup, last_status) values (" + backup + ", '[NOT OK]')"
