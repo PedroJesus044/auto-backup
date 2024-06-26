@@ -2,6 +2,7 @@ const db = require("../models");
 const Codigo = db.codigo;
 const Op = db.Sequelize.Op;
 
+
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
@@ -268,7 +269,7 @@ exports.addLineaToSpecificBlock = (req, res) => {
   let id_backup = req.body.id_backup; //Este sí pídelo
   let no_bloque = req.body.no_bloque; //Obligatorio en este caso
   let no_linea = req.body.no_linea; //Este será opcional
-  let linea = req.body.linea;    //Se pide
+  let linea = req.body.linea.replace(/'/g, "\\'");    //Se pide
   let run_as_sudo = req.body.run_as_sudo ? req.body.run_as_sudo : false; //Pídelo
   let paralelo = req.body.paralelo ? req.body.paralelo : false; //Lo va a pasar el mismo bloque
   //createdAt       : req.body.createdAt, es null
@@ -300,7 +301,7 @@ exports.addLineaToSpecificBackup = (req, res) => {
   // Create a Tutorial
   //id       : req.body.id, Es null
   let id_backup = req.body.id_backup; //Este sí pídelo
-  let linea = req.body.linea;    //Se pide
+  let linea = req.body.linea.replace(/'/g, "\\'");    //Se pide
 
   let select_max_ln = `(SELECT COALESCE(MAX(no_linea),0)+1 as new_linea FROM codigos temporal WHERE id_backup=${id_backup})`;
   let select_max_blk = `(SELECT COALESCE(MAX(no_bloque),0)+1 as new_bloque FROM codigos temporal2 WHERE id_backup=${id_backup})`;
@@ -308,7 +309,7 @@ exports.addLineaToSpecificBackup = (req, res) => {
   
   let sql = `INSERT INTO codigos(id, id_backup, no_bloque, no_linea, linea, run_as_sudo, paralelo) VALUES(null, ${id_backup}, ${select_max_blk}, ${select_max_ln}, '${linea}', false, false)`;
   console.log(sql);
-  db.sequelize.query(sql).then(data => {
+  db.sequelize.query(sql, {bind: ['active']}).then(data => {
     res.send(data);
   })
   .catch(err => {

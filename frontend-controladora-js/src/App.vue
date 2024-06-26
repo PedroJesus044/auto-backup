@@ -3,9 +3,15 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <router-link to="/" class="navbar-brand">bezKoder</router-link>
       <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/backups" class="nav-link">Backups</router-link>
-        </li>
+        <ul class="nav d-flex justify-content-between">
+          <li class="nav-item">
+            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+          </li>
+          <li class="nav-item ">
+            <router-link to="/backups" class="nav-link">Backups</router-link>
+          </li>
+        </ul>
+
       </div>
     </nav>
 

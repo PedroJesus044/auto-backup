@@ -9,6 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+#Esto nos ayudará a saber qué funciones se ejecutaron y así recibir una salida
 def function_handler(command, out, extra):
     #Se crean conexiones justo para esto
     try:
@@ -27,7 +28,9 @@ def function_handler(command, out, extra):
 
 
     #En caso de que se haya ejecutado un du -s
+    logger.info("Salida: " + out)
     if(re.match(r"du -s .*", command)):
+                    
                     out = out.replace("\t", ' ')
                     size = re.search('[0-9]+', out)
                     file = re.sub(r"([0-9]+ )", "", out)
@@ -39,7 +42,7 @@ def function_handler(command, out, extra):
                         
                         extra.update({'archivo':file})
                         extra.update({'peso':int(size)}) 
-                    logger.info("Se ejecuta un [du -s], enviando a la DB")
+                    logger.info("Se ejecuta un [du -s], enviando a la DB, Peso: "+str(size)+" Archivo: "+file)
                     query = "INSERT INTO file_traces (id_backup, size, file) VALUES ("+ str(extra["id_backup"]) +", "+ str(extra["peso"]) +", '"+ str(extra["archivo"]) +"')"
                     cur.execute(query)
                     logger.info(out, extra=extra)

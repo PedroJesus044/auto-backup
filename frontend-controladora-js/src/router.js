@@ -3,7 +3,12 @@ import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
     path: "/",
-    alias: "/backups",
+    alias: "/dashboard",
+    name: "dashboard",
+    component: () => import("./components/Dashboard")
+  },
+  {
+    path: "/backups",
     name: "backups",
     component: () => import("./components/BackupsList")
   },
@@ -11,11 +16,6 @@ const routes =  [
     path: "/backups/:id",
     name: "backups-details",
     component: () => import("./components/Backup")
-  },
-  {
-    path: "/add",
-    name: "add",
-    component: () => import("./components/AddBackup")
   }
 ];
 

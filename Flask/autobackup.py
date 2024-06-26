@@ -64,7 +64,7 @@ def main(backup):
     cant_bloques = int(cur.fetchone()[0])'''
 
     #No seleccionaremos la cantidad de bloques, en vez de eso seleccionaremos los distintos no_bloques
-    cur.execute("SELECT DISTINCT no_bloque as block_array from codigos where id_backup=?", (backup,))
+    cur.execute("SELECT DISTINCT no_bloque as block_array from codigos where id_backup=? ORDER BY block_array", (backup,))
     array_bloques = cur.fetchall()
     global test_logger
 
