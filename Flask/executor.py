@@ -55,7 +55,8 @@ def execute(client, commands, extra):
     try:
         for command in commands:
             logger.info("Ejecutando: "+command, extra=extra)
-            stdin, stdout, stderr = client.exec_command(command)
+            
+            stdin, stdout, stderr = client.exec_command(command, get_pty=False)
             stdin.close()
             
             out = stdout.read().decode().rstrip()
@@ -97,7 +98,7 @@ def execute_single(client, command, extra):
     status = 0
     try:
         logger.info("Ejecutando: "+command, extra=extra)
-        stdin, stdout, stderr = client.exec_command(command)
+        stdin, stdout, stderr = client.exec_command(command, get_pty=False)
         stdin.close()
         out = stdout.read().decode().rstrip()
         if out:

@@ -341,16 +341,37 @@
           let file_sizes = [];
           let chartArrayItem = null;
           let auxArrayItem = [];
+          let scale = 'B'
+          let max;
           for (let i in aux){
             file_name = aux[i].file;
             let local_history = await this.retreiveHistoryFile(file_name);
             file_sizes = [];
             listed_labels = [];
-            
+            scale = 'B';
             for (let j in local_history){
               listed_labels.push(local_history[j].createdAt);
               file_sizes.push(local_history[j].size);
             }
+            max = Math.max(...file_sizes)
+
+            if(max>=1024**4){
+              scale = "PB";
+              file_sizes = file_sizes.map(x => x * (1/1024**4));
+            }
+            else if(max>=1024**3){
+              scale = "TB";
+              file_sizes = file_sizes.map(x => x * (1/1024**3));
+            }
+            else if(max>=1024**2){
+              scale = "GB";
+              file_sizes = file_sizes.map(x => x * (1/1024**2));
+            }else if(max>=1024){
+              scale = "MB";
+              file_sizes = file_sizes.map(x => x * (1/1024));
+            }
+
+            console.log(max);
             console.log(i);
             let color = this.color_by_id(parseInt(i));
 
@@ -358,7 +379,7 @@
               chartData: {
                 labels: listed_labels,
                 datasets: [
-                  {label: file_name, data: file_sizes, tension: 0.3 , borderColor: color, backgroundColor: color}
+                  {label: file_name + " (" + scale + ")", data: file_sizes, tension: 0.3 , borderColor: color, backgroundColor: color, pointRadius: 0}
                 ]
               },
               chartOptions: {
