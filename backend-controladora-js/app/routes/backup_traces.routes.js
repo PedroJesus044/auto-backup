@@ -19,10 +19,13 @@ module.exports = app => {
   router.post("/historyfile", codigo.getHistoryFromFile); //Después en esto...
 
   //Add line and block to specific backup
-  router.post("/retrieve_limit", codigo.retreiveLimit)
+  router.post("/retrieve_limit", codigo.retreiveLimit);
 
   //Add line to a block of a backup
-  router.post("/addlinetospecificblock", codigo.addLineaToSpecificBlock)
+  router.post("/addlinetospecificblock", codigo.addLineaToSpecificBlock);
+
+  //Get last status from backups
+  router.get("/last_status", codigo.getLastStatusFromBackups);
 
   //Update block parallelism
   router.put("/updateparallelism", codigo.updateParallelism);

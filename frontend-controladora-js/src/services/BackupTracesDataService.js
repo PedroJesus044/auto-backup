@@ -32,6 +32,10 @@ class TutorialDataService {
   historyFile(data){
     return http.get("/file_traces/historyfile", data);
   }
+
+  generalStatus(){
+    return http.get("/backup_traces/last_status");
+  }
 }
 
 export default new TutorialDataService();

@@ -306,3 +306,16 @@ exports.retreiveLimit = (req, res) => {
     });
   });
 };
+
+exports.getLastStatusFromBackups = (req, res) => {
+  let sql = `SELECT b.id as id_backup, name, last_status, bt.createdAt as createdAt, bt.updatedAt as updatedAt FROM backups b JOIN backup_traces bt on b.id = bt.id_backup where bt.id in (SELECT max(bt2.id) from backups b2 JOIN backup_traces bt2 on b2.id = bt2.id_backup GROUP BY b2.id);`;
+  db.sequelize.query(sql,{ type: db.Sequelize.QueryTypes.SELECT }).then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
