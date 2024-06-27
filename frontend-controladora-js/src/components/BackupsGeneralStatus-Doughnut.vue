@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex flex-row">
         <div style="width: 100px; height: 100px;" v-for="(item, index) in doughnut_data"
               :key="index">
               <Doughnut :data="item.data" :options="item.options" />
@@ -37,22 +37,27 @@ export default {
         },
         update_doughnuts(item){
             console.log(item);
-            let color;
+            let color, value;
             switch(item.last_status) {
                 case "[ALL OK]":
-                    color = "green";
+                    color = "#70bd4a";
+                    value = 100;
                     break;
                 case "[RUNNING]":
-                    color = "blue";
+                    color = "#435ee6";
+                    value = 200;
                     break;
                 case "[NOT OK]":
-                    color = "red";
+                    color = "#e64343";
+                    value = 50;
                     break;
                 case "[FINISHED WITH ERRORS]":
-                    color = "yellow";
+                    color = "#ffca38";
+                    value = 25;
                     break;
                 default:
                     color = "currentColor";
+                    value = 0;
             }
             return {
                     data: {
@@ -60,13 +65,19 @@ export default {
                         datasets: [
                             {
                                 backgroundColor: [color],
-                                data: [1]
+                                data: [value]
                             }
                         ]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: true
+                        maintainAspectRatio: false,
+                        elements: {
+                            arc: {
+                                borderWidth: 0
+                            }
+                        },
+                        legend: { display: false }
                     }
                 }
         }
