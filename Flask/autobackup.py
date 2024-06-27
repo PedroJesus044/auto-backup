@@ -92,6 +92,8 @@ def main(backup):
             command_book = []
 
             #Hace el recorrido por cada uno de los bloques del respaldo especificado
+            if(len(array_bloques)<1):
+                raise Exception("No se encontró código a ejecutar")
             for i in array_bloques:
                 test_logger.info(i[0])
                 #Revisa si el código es paralelo
