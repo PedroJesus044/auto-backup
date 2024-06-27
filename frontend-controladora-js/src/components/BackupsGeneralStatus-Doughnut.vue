@@ -3,7 +3,7 @@
         <div style="width: 100px; height: 100px;"
         v-for="(item, index) in doughnut_data"
         :key="index">
-              <Doughnut :data="item.data" :options="item.options" />
+            <Doughnut :data="item.data" :options="item.options" />
         </div>
         
     </div>
@@ -77,7 +77,19 @@ export default {
                                 borderWidth: 0
                             }
                         },
-                        legend: { display: false }
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'black',
+                                    textAlign: 'center',
+                                    padding: 0,
+                                    boxWidth: 0,
+                                    boxHeight: 0,
+                                    boxPadding: 0
+                                }
+                            }
+                        }
                     }
                 }
         }
