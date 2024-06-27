@@ -2,7 +2,8 @@
     <div class="d-flex justify-content-around flex-wrap">
         <div style="width: 100px; height: 100px;"
         v-for="(item, index) in doughnut_data"
-        :key="index">
+        :key="index"
+        class="p-1">
             <Doughnut :data="item.data" :options="item.options" />
         </div>
         
