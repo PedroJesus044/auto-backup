@@ -1,7 +1,8 @@
 <template>
-    <div class="d-flex flex-row">
-        <div style="width: 100px; height: 100px;" v-for="(item, index) in doughnut_data"
-              :key="index">
+    <div class="d-flex justify-content-around flex-wrap" v-if="doughnut_data!==[]">
+        <div style="width: 100px; height: 100px;"
+        v-for="(item, index) in doughnut_data"
+        :key="index">
               <Doughnut :data="item.data" :options="item.options" />
         </div>
         
@@ -36,7 +37,6 @@ export default {
             });
         },
         update_doughnuts(item){
-            console.log(item);
             let color, value;
             switch(item.last_status) {
                 case "[ALL OK]":
