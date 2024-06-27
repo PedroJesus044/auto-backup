@@ -1,14 +1,17 @@
 <template>
     <h3>Dashboard</h3>
     <BackupsStatus></BackupsStatus>
+    <BackupsStatusDoughnut></BackupsStatusDoughnut>
 </template>
 <script>
 
   import BackupsStatus from './BackupsGeneralStatus';
+  import BackupsStatusDoughnut from './BackupsGeneralStatus-Doughnut'
   export default {
       name: "dashboard-view",
       components: {
-        BackupsStatus
+        BackupsStatus,
+        BackupsStatusDoughnut
       },
       data() {
         return {

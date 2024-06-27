@@ -32,16 +32,17 @@
                       </svg>
                 </div>
             </li>
-        </ul>
+        </ul>        
     </div>
 </template>
 <script>
 import BackupTracesDataService from "../services/BackupTracesDataService";
+
 export default {
     name: "general-status",
-      data() {
+    data() {
         return {
-            backup_states: []
+            backup_states: [],
         };
       },
       methods: {
@@ -57,9 +58,6 @@ export default {
       },
       mounted() {
         this.getStatus();
-        this.timer = setInterval(() => {
-            this.getStatus();
-        }, 300)
       }
 }
 </script>
