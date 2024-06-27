@@ -30,7 +30,7 @@ export default {
         getStatus(){
             BackupTracesDataService.generalStatus()
             .then(response => {
-                this.backup_states = response.data;
+                this.backup_states = response.data.reverse();
             })
             .catch(e => {
                 console.log(e);
