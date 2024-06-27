@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-around flex-wrap" v-if="doughnut_data!==[]">
+    <div class="d-flex justify-content-around flex-wrap">
         <div style="width: 100px; height: 100px;"
         v-for="(item, index) in doughnut_data"
         :key="index">

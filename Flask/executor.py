@@ -8,6 +8,15 @@ import logging, paramiko, re, mariadb, os
 import logging
 logger = logging.getLogger(__name__)
 
+#Esto decodificará la bytestring por fuerza bruta
+def force_decode(string, codecs=['utf8', 'ascii', 'cp1252']):
+    for i in codecs:
+        try:
+            return string.decode(i)
+        except UnicodeDecodeError:
+            pass
+
+    logging.warn("cannot decode url %s" % ([string]))
 
 #Esto nos ayudará a saber qué funciones se ejecutaron y así recibir una salida
 def function_handler(command, out, extra):
@@ -59,28 +68,14 @@ def execute(client, commands, extra):
             stdin, stdout, stderr = client.exec_command(command, get_pty=False)
             stdin.close()
             
-            out = stdout.read().decode().rstrip()
+            #Creamos la función force_decode porque en windows, la decodificación es diferente
+            out = force_decode(stdout.read()).rstrip()
             if out:
                 function_handler(command, out, extra)
-                '''
-                if(re.match(r"du -s .*", command)):
-                    out = out.replace("\t", ' ')
-                    size = re.search('[0-9]+', out)
-                    file = re.sub(r"([0-9]+ )", "", out)
-                    if(size and file):
-                        size = int(size.group())
-                        #file = file.group()
-                        
-                        #print(size, file)
-                        
-                        extra.update({'archivo':file})
-                        extra.update({'peso':int(size)}) 
-                    logger.info("Se ejecuta un [du -s], enviando a la DB")
-                    logger.info(out, extra=extra)'''
-            logger.debug(stdout.read().decode(), extra=extra)
+            logger.debug(out, extra=extra)
             if(stdout.channel.recv_exit_status()!=0):
-                err = stderr.read().decode()
-                out = stdout.read().decode()
+                err = force_decode(stderr.read())
+                out = force_decode(stdout.read())
                 if out:
                     logger.info(out, extra=extra)
                 if err:
@@ -100,12 +95,12 @@ def execute_single(client, command, extra):
         logger.info("Ejecutando: "+command, extra=extra)
         stdin, stdout, stderr = client.exec_command(command, get_pty=False)
         stdin.close()
-        out = stdout.read().decode().rstrip()
+        out = force_decode(stdout.read()).rstrip()
         if out:
             function_handler(command, out, extra)
-        logger.debug(stdout.read().decode(), extra=extra)
+        logger.debug(out, extra=extra)
         if(stdout.channel.recv_exit_status()!=0):
-            err = stderr.read().decode()
+            err = force_decode(stderr.read())
             if err:
                 logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
                 logger.error("Error: "+err, extra=extra)

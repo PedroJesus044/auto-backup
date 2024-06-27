@@ -16,7 +16,7 @@ if(log_to_logstash):
     handler = logstash.LogstashHandler(host, 5000, version=1)
     test_logger.addHandler(handler)
 else:
-    handler = logging.FileHandler('log/log_general.log', 'a', 'utf-8')
+    handler = logging.FileHandler('log/log_general.log', 'a', 'utf-32')
     test_logger.setLevel(logging.DEBUG)
     test_logger.addHandler(handler)
 
