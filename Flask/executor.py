@@ -55,6 +55,23 @@ def function_handler(command, out, extra):
                     query = "INSERT INTO file_traces (id_backup, size, file) VALUES ("+ str(extra["id_backup"]) +", "+ str(extra["peso"]) +", '"+ str(extra["archivo"]) +"')"
                     cur.execute(query)
                     logger.info(out, extra=extra)
+
+    #En caso de ejecutar un dir /s /-c *        
+    if(re.match(r"dir \/s \/-c .*", command)):
+        out = out.replace("\t", ' ')
+        focus = re.search(r"[0-9]+ [^\s]+\.[^\s]+", out).group()
+        size = int(int(focus.split(" ")[0])/1024)
+        file = focus.split(" ")[1]
+        if(size and file):
+            size = int(size)            
+            extra.update({'archivo':file})
+            extra.update({'peso':size})
+
+            logger.info("Se ejecuta un [dir \/s \/-c], enviando a la DB, Peso: "+str(size)+" Archivo: "+file)
+            query = "INSERT INTO file_traces (id_backup, size, file) VALUES ("+ str(extra["id_backup"]) +", "+ str(extra["peso"]) +", '"+ str(extra["archivo"]) +"')"
+            cur.execute(query)
+            logger.info(out, extra=extra)
+
     conn.commit()
     conn.close()
 
