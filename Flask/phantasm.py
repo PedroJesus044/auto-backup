@@ -54,6 +54,7 @@ def parallel_execute(commands, hostname, username, password, port, extra):
         for i in estados:
             if(i!=0):
                 status = 1
+                raise Exception("[!] Falla en parallel_execute")
         return status
     except Exception as e:
         logger.critical("[!] No se pudo ejecutar parallel_execute " + repr(e), extra=extra)

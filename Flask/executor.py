@@ -99,6 +99,7 @@ def execute(client, commands, extra):
                     logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
                     logger.error("Error: "+err, extra=extra)
                     status = 1
+                    raise Exception("Falla en execute, el comando regresó errores")
         return status
     except Exception as e:
         logger.critical("Fallo al ejecutar execute "+ repr(e), extra=extra)
@@ -122,6 +123,7 @@ def execute_single(client, command, extra):
                 logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
                 logger.error("Error: "+err, extra=extra)
                 status = 1
+                raise Exception("Falla en execute_single, el comando regresó errores")
         return status
     except Exception as e:
         logger.critical("Fallo al ejecutar execute_single - ", extra=extra)
