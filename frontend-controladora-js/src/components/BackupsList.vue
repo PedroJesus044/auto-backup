@@ -379,7 +379,7 @@
               chartData: {
                 labels: listed_labels,
                 datasets: [
-                  {label: file_name + " (" + scale + ")", data: file_sizes, tension: 0.3 , borderColor: color, backgroundColor: color, pointRadius: 0}
+                  {label: file_name + " (" + scale + ")", data: file_sizes, tension: 0.3 , borderColor: color, backgroundColor: color, pointRadius: 3}
                 ]
               },
               chartOptions: {
