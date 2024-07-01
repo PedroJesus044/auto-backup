@@ -1,6 +1,6 @@
 <template>
     <h3>Dashboard</h3>
-    <BackupsStatus v-if="false"></BackupsStatus>
+    <BackupsStatus v-if="true"></BackupsStatus>
     <BackupsStatusDoughnut></BackupsStatusDoughnut>
 </template>
 <script>

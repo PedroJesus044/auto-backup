@@ -210,41 +210,8 @@
     components: { Line },
     data() {
       return {
-        /*
-        //Este arreglo es de prueba, guarda esto con cariño :'v'
-        chartArray: [
-          {
-            chartData: {
-              //Las labels deben ser el createdAt
-              labels: [ '17/06/2024', '18/06/2024', '19/06/2024', '20/06/2024', '21/06/2024', '22/06/2024' ],
-              datasets: [
-                {label: 'prueba.sql', data: [66560, 152400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#007bff", backgroundColor: "#007bff"},
-                {label: 'codigo.tar.gz', data: [150298, 102400, 66560, 204800, 102400, 150298], tension: 0.3 , borderColor: "#28a745", backgroundColor: "#28a745"},
-                {label: 'archivo_final.tar.gz', data: [51200, 204800, 66560, 66560, 102400, 350000], tension: 0.3 , borderColor: "#ffc107", backgroundColor: "#ffc107"}
-              ]
-            },
-            chartOptions: {
-              responsive: true,
-            }
-            
-          }
-        ],*/
-
         chartArray: [],
-        
-        /*backup_traces: [
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[ALL OK]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[FINISHED WITH ERRORS]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[FINISHED WITH ERRORS]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[RUNNING]", createdAt: "2024-06-21 18:39:57.000"}},
-          {metadata: {nombre_respaldo: "prueba local"}, traza:{last_status: "[ALL OK]", createdAt: "2024-06-21 18:39:57.000"}}
-        ],*/
-
         backup_traces: null,
-
         backups: [],
         status: [],
         currentBackup: null,
@@ -318,6 +285,7 @@
           id_backup: this.currentBackup.id,
           file: file
         }
+        
       return await new Promise((resolve, reject) => {
           console.log(data);
           FileTracesDataService.historyFile(data)

@@ -41,23 +41,7 @@ export default {
     name: "general-status",
       data() {
         return {
-            backup_states: [
-                {
-                    id: 70,
-                    backup: "Siara-paralelo",
-                    last_status: "[ALL OK]"
-                },
-                {
-                    id_respaldo: 76,
-                    backup: "Prueba local",
-                    last_status: "[RUNNING]"
-                },
-                {
-                    id_respaldo: 86,
-                    backup: "Nuevo",
-                    last_status: "[NOT OK]"
-                }
-            ]
+            backup_states: []
         };
       },
       methods: {
