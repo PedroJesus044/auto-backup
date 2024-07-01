@@ -1,4 +1,6 @@
 services:
+#Servicios EKL para los logs.
+#La ventaja es que despliegan y analizan fallas, salidas de los comandos, pesos de archivos, etc.
   elasticsearch:
     image: elasticsearch:8.6.0
     ports:
@@ -38,6 +40,8 @@ services:
     profiles:
       - donotstart
 
+#Esta es la versión básica de la controladora
+#Hecha en PHP
   apache:
     ports:
       - "80:80"
@@ -56,6 +60,7 @@ services:
     profiles:
       - donotstart
 
+#Para usar la base de datos es necesario importarla desde el archivo autobackup-db.sql
   mariadb:
     image: mariadb:11.2.4
     environment:
@@ -69,6 +74,7 @@ services:
     ports:
       - "3306:3306"
 
+#Flask, funciona de igual forma que una API normal como lo es Express
   flask:
     build:
       context: .
@@ -76,6 +82,7 @@ services:
     environment:
       - FLASK_APP=main
       - FLASK_ENV=development
+      #Cors options
       - FLASK_CORS_OPTIONS=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
@@ -88,6 +95,8 @@ services:
     ports: #De momento se debe mapear el puerto. Posible cors issue
       - "5000:5000"
 
+#API que conecta la base de datos con el frontend
+#Usa Sequelize
   express:
     build:
       context: .
@@ -96,6 +105,7 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
+      #Es el cors options
       - ABKP_BACKEND_HOST=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
@@ -110,6 +120,7 @@ services:
       - "8080:8080"
     command: "node server.js"
 
+#Frontend para desarrollo
   vuejs:
     build:
       context: .
@@ -126,4 +137,17 @@ services:
     ports: #Mapear este puerto para ver la consola
       - "8081:8081"
     command: "npm run serve"
+    profiles:
+      - donotstart
 
+#Frontend para producción
+  nginx:
+    ports:
+      - "8081:80"
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    environment:
+      - ALLOWED_HOSTS=auto-backup-vuejs-1
+      - ABKP_AXIOS_BASEURL="http://auto-backup-express-1:8080/api"
+      - TZ=America/Mexico_City
