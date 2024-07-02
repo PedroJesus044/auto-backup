@@ -309,14 +309,14 @@
           let file_sizes = [];
           let chartArrayItem = null;
           let auxArrayItem = [];
-          let scale = 'B'
+          let scale = 'KB'
           let max;
           for (let i in aux){
             file_name = aux[i].file;
             let local_history = await this.retreiveHistoryFile(file_name);
             file_sizes = [];
             listed_labels = [];
-            scale = 'B';
+            scale = 'KB';
             for (let j in local_history){
               listed_labels.push(local_history[j].createdAt);
               file_sizes.push(local_history[j].size);

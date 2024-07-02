@@ -12,7 +12,14 @@ def hello_world():
 
         resultado = autobackup.main(id_backup)
 
-        return resultado, 200, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS']}
+        if(resultado == "[ALL OK]"):
+            codigo = 200
+        if(resultado == "[FINISHED WITH ERRORS]"):
+            codigo = 500
+        if(resultado == "[NOT OK]"):
+            codigo = 500
+
+        return resultado, codigo, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS']}
         
         #Ojo: Debemos poner el cors apuntando al origen del axios
     except:
