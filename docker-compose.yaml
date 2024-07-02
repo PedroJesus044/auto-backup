@@ -137,6 +137,8 @@ services:
     ports: #Mapear este puerto para ver la consola
       - "8081:8081"
     command: "npm run serve"
+    profiles:
+      - donotstart
 
 #Frontend para producción
   nginx:
@@ -149,5 +151,3 @@ services:
       - ALLOWED_HOSTS=auto-backup-vuejs-1
       - ABKP_AXIOS_BASEURL="http://auto-backup-express-1:8080/api"
       - TZ=America/Mexico_City
-    profiles:
-      - donotstart
