@@ -24,5 +24,7 @@ db.backup = require("./backups.model.js")(sequelize, Sequelize);
 db.metadata = require("./metadatas.model.js")(sequelize, Sequelize);
 db.file_trace = require("./file_traces.model.js")(sequelize, Sequelize);
 db.backup_trace = require("./backup_traces.model.js")(sequelize, Sequelize);
+db.user = require("./users.model.js")(sequelize, Sequelize);
+db.session = require("./sessions.model.js")(sequelize, Sequelize);
 
 module.exports = db;

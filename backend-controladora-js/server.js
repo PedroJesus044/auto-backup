@@ -6,8 +6,10 @@ const app = express();
 var corsOptions = {
   //Esto debe referenciarse a sí mismo
   //origin: "http://auto-backup-vuejs-1:8081"
-  origin: process.env.ABKP_BACKEND_HOST
+  origin: process.env.EXPRESS_CORS_OPTIONS.split(',')
 };
+
+console.log(corsOptions.origin);
 
 app.use(cors(corsOptions));
 
@@ -42,6 +44,8 @@ require("./app/routes/codigos.routes")(app);
 require("./app/routes/metadatas.routes")(app);
 require("./app/routes/file_traces.routes")(app);
 require("./app/routes/backup_traces.routes")(app);
+require("./app/routes/users.routes")(app);
+require("./app/routes/sessions.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
