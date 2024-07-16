@@ -37,9 +37,7 @@ import SessionDataService from "../services/SessionDataService";
         SessionDataService.login(data)
           .then(response => {
             if (response.status === 200 && 'username' in response.data) {
-              this.$session.start()
-              this.$session.set('jwt', response.body.token)
-              this.http.headers.common['Authorization'] = 'Bearer ' + response.body.token
+              sessionStorage.setItem("token", "fewuoibfeiwbslwl")
               this.$router.push('/backups')
             }
           })
