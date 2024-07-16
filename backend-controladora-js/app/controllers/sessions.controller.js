@@ -1,6 +1,7 @@
 const { or } = require("sequelize");
 const db = require("../models");
 const Session = db.session;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -167,17 +168,12 @@ exports.getMetadataFromBackup = (req, res) => {
     });
 };
 
-/*// find all published Tutorial
-exports.getAllCodeFromBackupBlock = (req, res) => {
-  // Validate request
-  if (!req.body.id_backup || !req.body.no_bloque) {
-    res.status(400).send({
-      message: "Content can not be empty! - Code from BackupBlock"
-    });
-    return;
-  }
-
-  Metadata.findAll({ where: { id_backup: req.body.id_backup, no_bloque: req.body.no_bloque} })
+exports.login = (req, res) => {
+  var condition = {
+    username: req.body.email,
+    password: req.body.password
+  };
+  User.findOne({ where: condition })
     .then(data => {
       res.send(data);
     })
@@ -186,6 +182,5 @@ exports.getAllCodeFromBackupBlock = (req, res) => {
         message:
           err.message || "Some error occurred while retrieving tutorials."
       });
-    });
+  });
 };
-*/
