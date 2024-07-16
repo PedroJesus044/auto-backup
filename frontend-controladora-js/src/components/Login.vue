@@ -18,6 +18,8 @@
   </template>
   
   <script>
+//import { createApp } from "vue";
+import SessionDataService from "../services/SessionDataService";
   export default {
     name: "login-screen",
     data() {
@@ -27,14 +29,25 @@
       };
     },
     methods: {
-      login() {
-        // Send login request and handle authentication token
-        // Store token in local storage
-        sessionStorage.setItem( 'token' , 'si');
-        //Remove item
-        //sessionStorage.removeItem( 'token' );
-        
-      }
+      login(){
+        var data = {
+          email: this.email,
+          password: this.password
+        }
+        SessionDataService.login(data)
+          .then(response => {
+            if (response.status === 200 && 'username' in response.data) {
+              this.$session.start()
+              this.$session.set('jwt', response.body.token)
+              this.http.headers.common['Authorization'] = 'Bearer ' + response.body.token
+              this.$router.push('/backups')
+            }
+          })
+          .catch(e => {
+            console.log(e);
+        });
+      },
+
     }
   };
   </script>

@@ -16,7 +16,8 @@
     "popper.js": "^1.16.1",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.1",
-    "vue-router": "^4.3.3"
+    "vue-router": "^4.3.3",
+    "vue-session": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
