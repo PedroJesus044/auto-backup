@@ -80,15 +80,15 @@ def execute(client, commands, extra):
     status = 0
     try:
         for command in commands:
-            logger.info("Ejecutando: "+command, extra=extra)
+            logger.info("Ejecutando: "+command[0], extra=extra)
             
-            stdin, stdout, stderr = client.exec_command(command, get_pty=False)
+            stdin, stdout, stderr = client.exec_command(command[0], get_pty=False)
             stdin.close()
             
             #Creamos la función force_decode porque en windows, la decodificación es diferente
             out = force_decode(stdout.read()).rstrip()
             if out:
-                function_handler(command, out, extra)
+                function_handler(command[0], out, extra)
             logger.debug(out, extra=extra)
             if(stdout.channel.recv_exit_status()!=0):
                 err = force_decode(stderr.read())
@@ -96,10 +96,12 @@ def execute(client, commands, extra):
                 if out:
                     logger.info(out, extra=extra)
                 if err:
-                    logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
-                    logger.error("Error: "+err, extra=extra)
-                    status = 1
-                    raise Exception("Falla en execute, el comando regresó errores")
+                    if(command[1]):
+                        logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
+                        logger.error("Error: "+err, extra=extra)
+                        status = 1
+                    else:
+                        raise Exception("Falla en execute, el comando regresó errores")
         return status
     except Exception as e:
         logger.critical("Fallo al ejecutar execute "+ repr(e), extra=extra)
@@ -110,20 +112,20 @@ def execute(client, commands, extra):
 def execute_single(client, command, extra):
     status = 0
     try:
-        logger.info("Ejecutando: "+command, extra=extra)
-        stdin, stdout, stderr = client.exec_command(command, get_pty=False)
+        logger.info("Ejecutando: "+command[0], extra=extra)
+        stdin, stdout, stderr = client.exec_command(command[0], get_pty=False)
         stdin.close()
         out = force_decode(stdout.read()).rstrip()
         if out:
-            function_handler(command, out, extra)
+            function_handler(command[0], out, extra)
         logger.debug(out, extra=extra)
         if(stdout.channel.recv_exit_status()!=0):
             err = force_decode(stderr.read())
             if err:
-                logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
-                logger.error("Error: "+err, extra=extra)
                 status = 1
-                raise Exception("Falla en execute_single, el comando regresó errores")
+                if(command[1]):
+                    logger.error("Proceso terminado con errores: " + str(stdout.channel.recv_exit_status()), extra=extra)
+                    logger.error("Error: "+err, extra=extra)
         return status
     except Exception as e:
         logger.critical("Fallo al ejecutar execute_single - ", extra=extra)

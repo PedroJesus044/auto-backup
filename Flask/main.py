@@ -17,9 +17,9 @@ def hello_world():
         if(resultado == "[ALL OK]"):
             codigo = 200
         if(resultado == "[FINISHED WITH ERRORS]"):
-            codigo = 500
+            codigo = 200
         if(resultado == "[NOT OK]"):
-            codigo = 500
+            codigo = 200
 
         #return resultado, codigo, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS'].split(",")}
         return resultado, codigo, {'Access-Control-Allow-Origin': '*'}

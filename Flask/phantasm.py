@@ -23,14 +23,12 @@ def execute_dedicated_here(command, hostname, username, password, port, extra):
         #logging.info("Ejecutando los comandos por SSH...")
         
         #Esto ya hace append, no es necesario el append de hasta abajo
-        estados.append(executor.execute_single(client, command, extra))
-
-        #logging.info("[OK]")
+        estados.append([executor.execute_single(client, command, extra), command[1]])
+        
         client.close()
-        #estados.append(0)
         
     except Exception as e:
-        estados.append(1)
+        estados.append([0,1])
         logger.critical("[!] Cannot connect to the SSH Server", extra=extra)
         raise Exception('Fallo al ejecutar execute_dedicated - ' + repr(e))
     
@@ -52,9 +50,10 @@ def parallel_execute(commands, hostname, username, password, port, extra):
         logger.info(estados)
 
         for i in estados:
-            if(i!=0):
+            if(i[0]!=0):
                 status = 1
-                raise Exception("[!] Falla en parallel_execute")
+                if(i[1]==0):
+                    raise Exception("[!] Falla en parallel_execute")
         return status
     except Exception as e:
         logger.critical("[!] No se pudo ejecutar parallel_execute " + repr(e), extra=extra)

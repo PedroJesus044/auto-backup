@@ -102,13 +102,19 @@ def main(backup):
                 paralelo = bool(int(result[0]))
 
                 #Selecciona todas las líneas de código de uno de los bloques
-                cur.execute("select run_as_sudo, linea from codigos where id_backup=? and no_bloque=? order by no_linea", (backup,i[0],))
+                cur.execute("select fault_tolerant, run_as_sudo, linea from codigos where id_backup=? and no_bloque=? order by no_linea", (backup,i[0],))
                 aux = []
-                for run_as_sudo, linea in cur:
+                for fault_tolerant, run_as_sudo, linea in cur:
+                    #El acux.append añade un arreglo al arreglo auxiliar
+                    #Dicho arreglo contiene [línea de código, fault_tolerant]
+                    #La línea de código es el comando que se ejecutará
+                    #Fault tolerant es un entero con valor 0 o 1
+                    #   0: No es tolerante a errores, el programa se detendrá completamente si el comando regresa un código de estado diferente de 0
+                    #   1: Es tolerante a errores, el programa se seguirá ejecutando a pesar de que este comando falle
                     if(run_as_sudo==1):
-                        aux.append(rash + linea)
+                        aux.append([rash + linea, fault_tolerant])
                     else:
-                        aux.append(linea)
+                        aux.append([linea, fault_tolerant])
                 
                 if(TRAINING == False):
                     if(paralelo):
