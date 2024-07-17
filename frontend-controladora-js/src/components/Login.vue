@@ -19,7 +19,7 @@
   
   <script>
 //import { createApp } from "vue";
-import SessionDataService from "../services/SessionDataService";
+import SessionDataService from '@/services/SessionDataService';
   export default {
     name: "login-screen",
     data() {
@@ -39,13 +39,28 @@ import SessionDataService from "../services/SessionDataService";
               if (response.status === 200 && 'username' in response.data) {
                 console.log(response.data);
                 sessionStorage.setItem("token", "fewuoibfeiwbslwl");
+                sessionStorage.setItem("role", response.data.role);
+                sessionStorage.setItem("username", response.data.username);
                 this.$router.push('/backups');
               }
             })
             .catch(e => {
               console.log(e);
           });
+      },
+
+      validateSession(){
+        this.token = sessionStorage.getItem("token") ? true : false;
+        this.isAdmin = sessionStorage.getItem("role")==="dashboard" ? true : false;
+        this.username = sessionStorage.getItem("username");
       }
+    },
+    mounted() {
+          this.validateSession();
+          this.timer = setInterval(() => {
+            this.validateSession();
+          }, 300)
+          if(this.token) this.$router.push("/dashboard")
     }
   };
   </script>

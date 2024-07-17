@@ -12,7 +12,8 @@ const routes =  [
     name: "dashboard",
     component: () => import("./components/Dashboard"),
     meta: {
-      requiresAuth: true // Add meta field to indicate protected route
+      requiresAuth: true, // Add meta field to indicate protected route
+      mustBeAdmin: false
     }
   },
   {
@@ -20,7 +21,8 @@ const routes =  [
     name: "backups",
     component: () => import("./components/BackupsList"),
     meta: {
-      requiresAuth: true // Add meta field to indicate protected route
+      requiresAuth: true, // Add meta field to indicate protected route
+      mustBeAdmin: true
     }
   },
   {
@@ -28,7 +30,8 @@ const routes =  [
     name: "backups-details",
     component: () => import("./components/Backup"),
     meta: {
-      requiresAuth: true // Add meta field to indicate protected route
+      requiresAuth: true, // Add meta field to indicate protected route
+      mustBeAdmin: true
     }
   }
 ];
@@ -40,10 +43,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
+    const isAdmin = sessionStorage.getItem("role")==="admin" ? true : false;
     if (token) {
       // User is authenticated, proceed to the route
-      next();
+      if(to.meta.mustBeAdmin && isAdmin) next();
+      else if(to.meta.mustBeAdmin===false) next();
+      else next('/dashboard');
     } else {
       // User is not authenticated, redirect to login
       next('/login');
