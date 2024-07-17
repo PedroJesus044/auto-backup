@@ -24,6 +24,9 @@
                 v-for="(codigo, index2) in bloque.codigo"
                 :key="index2">
                   <div class="row">
+                    <input @change="updateLinea(codigo)" type="checkbox" v-model="codigo.fault_tolerant" style="accent-color: orange;">
+                    &nbsp;
+
                     <input @change="updateLinea(codigo)" type="checkbox" v-model="codigo.run_as_sudo">
                     &nbsp;
 
@@ -122,7 +125,8 @@
             linea: this.new_line_array[index],
             run_as_sudo: 0,
             paralelo: 0,
-            no_bloque: no_bloque
+            no_bloque: no_bloque,
+            fault_tolerant: 0
         };
   
         await CodigosDataService.addLinea(data)

@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     paralelo: {
       type: Sequelize.BOOLEAN
+    },
+    fault_tolerant: {
+      type: Sequelize.BOOLEAN
     }
   });
 
