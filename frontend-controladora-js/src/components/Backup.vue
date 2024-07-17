@@ -5,7 +5,7 @@
   
     <div v-else>
       <br />
-      <p>Please click on a Tutorial...</p>
+      <p>Autobackup start!</p>
     </div>
 
     <div v-if="blockList" class="edit-form">
