@@ -7,7 +7,7 @@ var corsOptions = {
   //Esto debe referenciarse a sí mismo
   //"origin": "http://auto-backup-vuejs-1:8081"
   //"origin": process.env.EXPRESS_CORS_OPTIONS
-  'origin': 'http://auto-backup-vuejs-git:8080',
+  'origin': 'https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx',
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': '*',
