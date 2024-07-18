@@ -7,7 +7,7 @@ export default axios.create({
   
   headers: {
     //"Content-type": "application/json"
-    'Content-Type': 'text/plain;charset=utf-8',
+    'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': '*',
     'Access-Control-Allow-Headers':'Content-Type'
