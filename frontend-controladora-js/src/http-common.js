@@ -7,7 +7,7 @@ export default axios.create({
   
   headers: {
     //"Content-type": "application/json"
-    'origin':'https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx',
+    'Origin':'https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx',
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': '*',
