@@ -135,7 +135,7 @@ services:
       #- VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
       #- VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
    #Modo buildeo para producción
-      - VUE_APP_ABKP_AXIOS_BASEURL=http://autobackup-express-git:8080/api
+      - VUE_APP_ABKP_AXIOS_BASEURL=http://auto-backup-express-git:8080/api
       - VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
       - TZ=America/Mexico_City
     volumes:
