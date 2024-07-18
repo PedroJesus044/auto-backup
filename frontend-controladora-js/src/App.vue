@@ -11,7 +11,7 @@
             <router-link to="/backups" class="nav-link">Backups</router-link>
           </li>
         </ul>
-        
+       
 
       </div>
       <div class="float-right" v-if="token">
