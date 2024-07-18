@@ -6,12 +6,16 @@ const app = express();
 var corsOptions = {
   //Esto debe referenciarse a sí mismo
   //"origin": "http://auto-backup-vuejs-1:8081"
-  "origin": process.env.EXPRESS_CORS_OPTIONS
+  //"origin": process.env.EXPRESS_CORS_OPTIONS
+  origin: 'https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx/'
 };
 
+//Cors para un origen específico
+//console.log(corsOptions.origin);
+//app.use(cors(corsOptions));
 
-console.log(corsOptions.origin);
-app.use(cors(corsOptions));
+//Cors para cualquier origen desconocido
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
