@@ -15,11 +15,11 @@ var corsOptions = {
 };
 
 //Cors para un origen específico
-console.log(corsOptions.origin);
-app.use(cors(corsOptions));
+// console.log(corsOptions.origin);
+// app.use(cors(corsOptions));
 
 //Cors para cualquier origen desconocido
-//app.use(cors());
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
