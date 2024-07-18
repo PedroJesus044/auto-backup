@@ -107,14 +107,14 @@ services:
     environment:
       - NODE_ENV=production
       #Cors options
-      - EXPRESS_CORS_OPTIONS=*,http://localhost:8080,https://localhost:8080,http://auto-backup-vuejs-1:8081,http://10.22.165.29:8081
+      - EXPRESS_CORS_OPTIONS=*
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
       - TZ=America/Mexico_City
     volumes:
-      - ./backend-controladora-js/:/home/node/app
+      - ./backend-controladora-js/express/:/home/node/app
     expose:
       - "8080"
     ports: #De momento se deben mapear los puertos
@@ -129,10 +129,14 @@ services:
     user: "node"
     working_dir: /home/node/app
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - ALLOWED_HOSTS=auto-backup-vuejs-1
-      - ABKP_AXIOS_BASEURL="http://10.22.165.29:8080/api"
-      - ABKP_FLASK_BASEURL="http://10.22.165.29:5000"
+   #Modo desarrollo
+      #- VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
+      #- VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
+   #Modo buildeo para producción
+      - VUE_APP_ABKP_AXIOS_BASEURL=http://autobackup-express-git:8080/api
+      - VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
       - TZ=America/Mexico_City
     volumes:
       - ./frontend-controladora-js/:/home/node/app
@@ -149,7 +153,8 @@ services:
       dockerfile: nginx.Dockerfile
     environment:
       - ALLOWED_HOSTS=auto-backup-vuejs-1
-      - ABKP_AXIOS_BASEURL="http://auto-backup-express-1:8080/api"
+      - VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
+      - VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
       - TZ=America/Mexico_City
     profiles:
       - donotstart
