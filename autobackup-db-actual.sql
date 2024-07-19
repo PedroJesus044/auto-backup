@@ -31,7 +31,7 @@ CREATE TABLE `backup_traces` (
   PRIMARY KEY (`id`),
   KEY `backup_traces_backups_FK` (`id_backup`),
   CONSTRAINT `backup_traces_backups_FK` FOREIGN KEY (`id_backup`) REFERENCES `backups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1722 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1524,7 +1524,15 @@ INSERT INTO `backup_traces` VALUES
 (1718,70,'[RUNNING]','2024-07-17 13:24:09','2024-07-17 13:24:09'),
 (1719,70,'[ALL OK]','2024-07-17 13:24:10','2024-07-17 13:24:10'),
 (1720,70,'[RUNNING]','2024-07-17 13:24:39','2024-07-17 13:24:39'),
-(1721,70,'[ALL OK]','2024-07-17 13:24:43','2024-07-17 13:24:43');
+(1721,70,'[ALL OK]','2024-07-17 13:24:43','2024-07-17 13:24:43'),
+(1722,70,'[RUNNING]','2024-07-19 12:25:57','2024-07-19 12:25:57'),
+(1723,70,'[ALL OK]','2024-07-19 12:25:59','2024-07-19 12:25:59'),
+(1724,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1725,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1726,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1727,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1728,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1729,70,'[NOT OK]','2024-07-19 12:26:21','2024-07-19 12:26:21');
 /*!40000 ALTER TABLE `backup_traces` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1678,7 +1686,7 @@ CREATE TABLE `file_traces` (
   PRIMARY KEY (`id`),
   KEY `file_traces_backups_FK` (`id_backup`),
   CONSTRAINT `file_traces_backups_FK` FOREIGN KEY (`id_backup`) REFERENCES `backups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=946 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=948 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2224,7 +2232,9 @@ INSERT INTO `file_traces` VALUES
 (942,70,'/root/adios_mundo.txt',102400,'2024-07-17 13:24:10','2024-07-17 13:24:10'),
 (943,70,'hola_mundo.txt',204800,'2024-07-17 13:24:10','2024-07-17 13:24:10'),
 (944,70,'/root/adios_mundo.txt',5242884,'2024-07-17 13:24:42','2024-07-17 13:24:42'),
-(945,70,'hola_mundo.txt',204800,'2024-07-17 13:24:42','2024-07-17 13:24:42');
+(945,70,'hola_mundo.txt',204800,'2024-07-17 13:24:42','2024-07-17 13:24:42'),
+(946,70,'/root/adios_mundo.txt',5242884,'2024-07-19 12:25:59','2024-07-19 12:25:59'),
+(947,70,'hola_mundo.txt',204800,'2024-07-19 12:25:59','2024-07-19 12:25:59');
 /*!40000 ALTER TABLE `file_traces` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2248,7 +2258,9 @@ CREATE TABLE `metadatas` (
   `reintentos_maximos` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL DEFAULT curdate(),
   `updatedAt` datetime NOT NULL DEFAULT curdate(),
+  `id_rsa_filename` text DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_id_rsa_filename` (`id_rsa_filename`) USING HASH,
   KEY `metadatas_backups_FK_1` (`id_backup`),
   CONSTRAINT `metadatas_backups_FK` FOREIGN KEY (`id_backup`) REFERENCES `backups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2261,15 +2273,15 @@ CREATE TABLE `metadatas` (
 LOCK TABLES `metadatas` WRITE;
 /*!40000 ALTER TABLE `metadatas` DISABLE KEYS */;
 INSERT INTO `metadatas` VALUES
-(40,70,'','10.22.165.29','','echo <Pr0c3s0.> | sudo -S ','root','Pr0c3s0.',2224,5,'2024-06-20 18:25:40','2024-07-17 18:27:49'),
-(51,83,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:13:10','2024-06-28 22:03:25'),
-(52,84,'','10.22.165.29','','echo Pr0c3s0. | sudo -S ','usuario','Pr0c3s0.',2224,1,'2024-06-27 17:14:29','2024-07-01 19:48:10'),
-(53,85,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:14:55','2024-06-27 18:08:45'),
-(54,86,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:15:26','2024-06-27 17:15:26'),
-(57,93,'','10.22.165.29','','echo a478s236d159f | sudo -S ','usuario','a478s236d159f',2226,2,'2024-06-27 18:21:55','2024-06-27 19:13:46'),
-(65,95,'','10.22.165.29','','echo Pr0c3s0. | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-28 22:11:06','2024-06-28 22:17:16'),
-(66,96,'/mnt/Respaldos_Pure/Test/$YEAR_DIR/$MONTH_DIR/10_22_157_42','10.22.157.42','10.22.157.67','echo Acceso123 | sudo -S ','backups','Acceso123',22,1,'2024-07-01 18:40:28','2024-07-02 16:53:02'),
-(67,97,'/mnt/Respaldos_Pure/Test/10_22_157_42','10.22.157.42','10.22.157.67','echo Acceso123 | sudo -S ','locked','Acceso123',22,1,'2024-07-02 17:09:02','2024-07-17 19:01:06');
+(40,70,'','10.22.165.29','','echo <Pr0c3s0.> | sudo -S ','','',2224,5,'2024-06-20 18:25:40','2024-07-19 22:13:33','python_identity.id_rsa'),
+(51,83,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:13:10','2024-06-28 22:03:25',NULL),
+(52,84,'','10.22.165.29','','echo Pr0c3s0. | sudo -S ','usuario','Pr0c3s0.',2224,1,'2024-06-27 17:14:29','2024-07-01 19:48:10',NULL),
+(53,85,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:14:55','2024-06-27 18:08:45',NULL),
+(54,86,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:15:26','2024-06-27 17:15:26',NULL),
+(57,93,'','10.22.165.29','','echo a478s236d159f | sudo -S ','usuario','a478s236d159f',2226,2,'2024-06-27 18:21:55','2024-06-27 19:13:46',NULL),
+(65,95,'','10.22.165.29','','echo Pr0c3s0. | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-28 22:11:06','2024-06-28 22:17:16',NULL),
+(66,96,'/mnt/Respaldos_Pure/Test/$YEAR_DIR/$MONTH_DIR/10_22_157_42','10.22.157.42','10.22.157.67','echo Acceso123 | sudo -S ','backups','Acceso123',22,1,'2024-07-01 18:40:28','2024-07-02 16:53:02',NULL),
+(67,97,'/mnt/Respaldos_Pure/Test/10_22_157_42','10.22.157.42','10.22.157.67','echo Acceso123 | sudo -S ','locked','Acceso123',22,1,'2024-07-02 17:09:02','2024-07-17 19:01:06',NULL);
 /*!40000 ALTER TABLE `metadatas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2345,4 +2357,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-17 13:31:01
+-- Dump completed on 2024-07-19 17:51:48
