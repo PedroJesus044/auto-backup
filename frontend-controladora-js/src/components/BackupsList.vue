@@ -84,6 +84,24 @@
                     v-model="currentMetadata.user_servidor">
                 </div>
 
+              <label><strong>SSH Key:</strong></label>
+              <div class="input-group mb-3 d-flex">
+                  <input type="text" class="form-control"
+                    disabled
+                    v-model="currentMetadata.filename">
+                  <button class="btn btn-info" @click="onPickFile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                      <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                    </svg>
+                  </button>
+                  <input
+                    type="file"
+                    style="display: none"
+                    ref="fileInput"
+                    @change="onFilePicked"/>
+              </div>
+              
               <label><strong>Server password:</strong></label>
                 <div class="input-group mb-3">
                   <input type="password" class="form-control" placeholder="P4ssw0rd." aria-label="Username" aria-describedby="basic-addon1"
@@ -227,13 +245,29 @@
               user_servidor: "",
               pw_servidor: "",
               port: null,
-              reintentos_maximos: null
+              reintentos_maximos: null,
+              file: null,
+              filename: ""
         },
         noMetadataExists: true,
-        currentHistory: null
+        currentHistory: null,
+
       };
     },
     methods: {
+      onPickFile () {
+        this.$refs.fileInput.click()
+      },
+      onFilePicked (event) {
+        const files = event.target.files
+        this.currentMetadata.filename = files[0].name
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load', () => {
+          this.imageUrl = fileReader.result
+        })
+        fileReader.readAsDataURL(files[0])
+        this.image = files[0]
+      },
       async getBackupHistory(max){
         var data = {
           id_backup: this.currentBackup.id,
