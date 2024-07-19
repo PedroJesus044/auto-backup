@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080']
+var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081']
 
 var corsOptions = {
   origin: function (origin, callback) {
