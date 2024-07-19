@@ -1,4 +1,5 @@
-from flask import Flask, request, redirect
+from flask import Flask, flash, request, redirect, url_for
+from werkzeug.utils import secure_filename
 import autobackup, os
 from time import sleep
 from random import randint
@@ -28,3 +29,41 @@ def hello_world():
     except:
         #return 'Flask', 200, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS'].split(",")}
         return resultado, codigo, {'Access-Control-Allow-Origin': '*'}
+
+UPLOAD_FOLDER = 'identities/'
+ALLOWED_EXTENSIONS = {'.id_rsa', 'id_rsa'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/id_rsa_file', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return "No hay file part", 200, {'Access-Control-Allow-Origin': '*'}
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            #flash('No selected file')
+            return "Archivo vacío", 200, {'Access-Control-Allow-Origin': '*'}
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return "Finalmente: " + filename, 200, {'Access-Control-Allow-Origin': '*'}
+        return "No if", 200, {'Access-Control-Allow-Origin': '*'}
+    resultado =  '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
+    return resultado, 200, {'Access-Control-Allow-Origin': '*'}
