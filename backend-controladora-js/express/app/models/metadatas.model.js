@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     reintentos_maximos: {
       type: Sequelize.INTEGER
+    },
+    id_rsa_filename: {
+      type: Sequelize.STRING
     }
   });
 
