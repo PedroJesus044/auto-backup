@@ -3,14 +3,14 @@ const cors = require("cors");
 
 const app = express();
 
-var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
+var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
 
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+  origin: function (host, callback) {
+    if (whitelist.indexOf(host) !== -1) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS. Origin: ' + origin))
+      callback(new Error('Not allowed by CORS. Origin: ' + host))
     }
   }
 }
