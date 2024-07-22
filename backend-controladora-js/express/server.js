@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'http://auto-backup-express-git:8080']
+var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
 
 var corsOptions = {
   origin: function (origin, callback) {
