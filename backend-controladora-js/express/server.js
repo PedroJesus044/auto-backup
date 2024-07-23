@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-/*var whitelist = ['https://auto-backup-vuejs-git-or15.apps.ocpprod.pjedomex.gob.mx', 'http://auto-backup-vuejs-git:8080', 'http://10.22.165.29:8080', 'http://auto-backup-vuejs-1:8081', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
+var whitelist = ['']
 
 var corsOptions = {
   origin: function (origin, callback) {
@@ -12,15 +12,17 @@ var corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'))
     }
-  }
-}*/
-
-var corsOptions = {
-  //'origin': '*',
-  //'Access-Control-Allow-Origin': 'https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
+  },
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
   'Access-Control-Allow-Headers': 'Content-Type'
 }
+
+// var corsOptions = {
+//   //'origin': '*',
+//   //'Access-Control-Allow-Origin': 'https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
+//   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+//   'Access-Control-Allow-Headers': 'Content-Type'
+// }
 
 //Cors para un origen específico
 console.log(corsOptions.origin);
