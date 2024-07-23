@@ -6,11 +6,11 @@ const app = express();
 var whitelist = ['https://alter-auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/']
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.includes(origin)) {
+  origin: function (host, callback) {
+    if (whitelist.includes(host)) {
       callback(null, true)
     } else {
-      console.log('origin:', origin, 'not allowed')
+      console.log('host:', host, 'not allowed')
       callback(new Error('Not allowed by CORS'))
     }
   }
