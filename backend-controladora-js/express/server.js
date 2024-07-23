@@ -3,40 +3,21 @@ const cors = require("cors");
 
 const app = express();
 
-var whitelist = ['https://alter-auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/']
-
-const corsOptions = {
-  origin: function (host, callback) {
-    if (whitelist.includes(host)) {
-      callback(null, true)
-    } else {
-      console.log('host:', host, 'not allowed')
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+var whitelist = ['https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
 
 // Muy permisivo
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   },
-//   'Access-Control-Allow-Origin': 'https://alter-auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
-//   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-//   'Access-Control-Allow-Headers': 'Content-Type'
-// }
-
-//Muy permisivo
-// var corsOptions = {
-//   //'origin': '*',
-//   //'Access-Control-Allow-Origin': 'https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
-//   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-//   'Access-Control-Allow-Headers': 'Content-Type'
-// }
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  'Access-Control-Allow-Origin': 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
+  'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+  'Access-Control-Allow-Headers': 'Content-Type'
+}
 
 //Cors para un origen específico
 console.log(corsOptions.origin);
