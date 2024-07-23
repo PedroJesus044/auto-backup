@@ -51,7 +51,20 @@
       </div>
       <div class="col-md-4">
         <div v-if="currentBackup">
-            <h4>Metadata</h4>
+          <div class="d-flex">
+            <div><h4>Metadata</h4></div>&nbsp;
+            <div v-if="metadata_error">
+              <svg xmlns="http://www.w3.org/2000/svg" color="red" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+              </svg>
+            </div>
+            <div v-if="metadata_success">
+              <svg xmlns="http://www.w3.org/2000/svg" color="green" width="16" height="16" fill="currentColor" class="bi bi-check-square-fill" viewBox="0 0 16 16">
+                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
+              </svg>
+            </div>
+          </div>
+
             <div>
               <label><strong>Server hostname:</strong></label>
                 <div class="input-group mb-3">
@@ -88,11 +101,18 @@
               <div class="input-group mb-3 d-flex">
                   <input type="text" class="form-control"
                     disabled
-                    v-model="currentMetadata.filename">
-                  <button class="btn btn-info" @click="onPickFile">
+                    v-model="currentMetadata.id_rsa_filename">
+
+                  <button class="btn btn-info" @click="onPickFile" v-if="!currentMetadata.id_rsa_filename">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
                       <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                    </svg>
+                  </button>
+
+                  <button class="btn btn-danger" @click="remove_id_rsa_filename" v-else>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                     </svg>
                   </button>
                   <input
@@ -247,26 +267,61 @@
               port: null,
               reintentos_maximos: null,
               file: null,
-              filename: ""
+              id_rsa_filename: ""
         },
         noMetadataExists: true,
         currentHistory: null,
-
+        metadata_error: false,
+        metadata_success: false,
       };
     },
     methods: {
+      async checkForFile(){
+        // const data = {
+        //   "file": this.currentMetadata.file
+        // }
+        if(this.currentMetadata.file && this.currentMetadata.id_rsa_filename){
+          console.log("[INFO] Saving to Flask");
+          console.log(this.currentMetadata.file);
+        
+          let baseURL = `http://10.22.165.29:5000/id_rsa_file`;
+          axios.create({
+              baseURL: baseURL,
+              headers: {
+                  'Access-Control-Allow-Origin': '*',
+                  'origin':'x-requested-with',
+                  'Access-Control-Allow-Headers': 'POST, GET, PUT, DELETE, OPTIONS, HEAD, Authorization, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin',
+                  'Content-Type': 'application/json',
+              }
+            });
+
+          var formData = new FormData();
+          formData.append("file", this.currentMetadata.file);
+
+          await axios.post(baseURL, formData).then((response) => {
+            console.log(response.data);
+          });
+          
+        }else{
+          console.log("[OK] Not saving to Flask");
+        }
+      },
+
+      remove_id_rsa_filename (){
+        this.currentMetadata.id_rsa_filename = null;
+      },
       onPickFile () {
         this.$refs.fileInput.click()
       },
       onFilePicked (event) {
         const files = event.target.files
-        this.currentMetadata.filename = files[0].name
+        this.currentMetadata.id_rsa_filename = files[0].name
         const fileReader = new FileReader()
         fileReader.addEventListener('load', () => {
           this.imageUrl = fileReader.result
         })
         fileReader.readAsDataURL(files[0])
-        this.image = files[0]
+        this.currentMetadata.file = files[0]
       },
       async getBackupHistory(max){
         var data = {
@@ -454,11 +509,11 @@
               user_servidor: "",
               pw_servidor: "",
               port: null,
-              reintentos_maximos: null
+              reintentos_maximos: null,
+              id_rsa_filename: ""
               }
               this.noMetadataExists = false;
             }
-
           })
           .catch(e => {
             console.log(e);
@@ -472,6 +527,8 @@
       },
   
       setActiveTutorial(tutorial, index) {
+        this.metadata_error = false;
+        this.metadata_success = false;
         this.currentBackup = tutorial;
         this.currentIndex = tutorial ? index : -1;
       },
@@ -554,8 +611,11 @@
             this.retreiveMetadata();
             this.refreshList();
             this.setActiveTutorial(auxCurrentBackup, auxIndex);
+            this.metadata_success = true;
+            this.checkForFile();
           })
           .catch(e => {
+            this.metadata_error = true;
             console.log(e);
         });
       },
@@ -565,8 +625,12 @@
           .then(response => {
             console.log(response.data);
             this.message = 'The metadata was updated successfully!';
+            this.metadata_success = true;
+            this.checkForFile();
           })
           .catch(e => {
+            this.metadata_error = true;
+            this.metadata_success = false;
             console.log(e);
           });
       }

@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
-var whitelist = ['https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com']
+//Cuando entro a la página del autobackup de nginx, el origen termina siendo la misma url a la que entro.
+//No el dominio del servicio de express, no el nombre del servicio express
+//Únicamente el dominio http://auto-backup-vuejs-1:8081 del vuejs
+var whitelist = ['https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com', 'http://auto-backup-express-1:8080', 'http://auto-backup-vuejs-1:8081']
 
 // Muy permisivo
 var corsOptions = {
@@ -11,10 +13,11 @@ var corsOptions = {
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error(origin+' - Not allowed by CORS'))
     }
   },
-  'Access-Control-Allow-Origin': 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
+  //'Access-Control-Allow-Origin': 'https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
   'Access-Control-Allow-Headers': 'Content-Type'
 }

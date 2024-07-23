@@ -6,6 +6,8 @@ from random import randint
 
 app = Flask(__name__)
 
+app.secret_key = "super secret key"
+
 @app.route("/")
 def hello_world():
     try:
@@ -41,29 +43,32 @@ def allowed_file(filename):
 
 @app.route('/id_rsa_file', methods=['GET', 'POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return "No hay file part", 200, {'Access-Control-Allow-Origin': '*'}
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            #flash('No selected file')
-            return "Archivo vacío", 200, {'Access-Control-Allow-Origin': '*'}
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return "Finalmente: " + filename, 200, {'Access-Control-Allow-Origin': '*'}
-        return "No if", 200, {'Access-Control-Allow-Origin': '*'}
-    resultado =  '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
-    return resultado, 200, {'Access-Control-Allow-Origin': '*'}
+    try:
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return "No hay file part", 200, {'Access-Control-Allow-Origin': '*'}
+            file = request.files['file']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                #flash('No selected file')
+                return "Archivo vacío", 200, {'Access-Control-Allow-Origin': '*'}
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return "[FILE: " + filename + "]", 200, {'Access-Control-Allow-Origin': '*'}
+            return "No if", 200, {'Access-Control-Allow-Origin': '*'}
+        resultado =  '''
+        <!doctype html>
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+        '''
+        return resultado, 200, {'Access-Control-Allow-Origin': '*'}
+    except Exception as e:
+        return "Failure: " + str(repr(e)), 500, {'Access-Control-Allow-Origin': '*'}
