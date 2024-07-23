@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-var whitelist = ['']
+var whitelist = ['https://auto-backup-express-git-pibarrap044-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/']
 
 var corsOptions = {
   origin: function (origin, callback) {
