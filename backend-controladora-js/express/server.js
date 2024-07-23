@@ -17,7 +17,7 @@ var corsOptions = {
 
 var corsOptions = {
   //'origin': '*',
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
   'Access-Control-Allow-Headers': 'Content-Type'
 }
