@@ -123,7 +123,7 @@
                     @change="onFilePicked"/>
               </div>
               
-              <label><strong>Server password:</strong></label>
+              <label><strong>Server password:</strong><sub><i class="text-secondary">&nbsp;(Not recommended)</i></sub></label>
                 <div class="input-group mb-3">
                   <input type="password" class="form-control" placeholder="P4ssw0rd." aria-label="Username" aria-describedby="basic-addon1"
                     v-model="currentMetadata.pw_servidor" @keypress="onMetadataModified" @change="onMetadataModified">
