@@ -33,6 +33,15 @@ const routes =  [
       requiresAuth: true, // Add meta field to indicate protected route
       mustBeAdmin: true
     }
+  },
+  {
+    path: "/cron/:id",
+    name: "cron",
+    component: () => import("./components/Cron"),
+    meta: {
+      requiresAuth: true, // Add meta field to indicate protected route
+      mustBeAdmin: true
+    }
   }
 ];
 
