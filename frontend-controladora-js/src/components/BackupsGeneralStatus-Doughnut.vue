@@ -4,7 +4,7 @@
         v-for="(item, index) in doughnut_data"
         :key="index"
         class="p-1">
-            <Doughnut :data="item.data" :options="item.options" />
+            <Pie :data="item.data" :options="item.options" />
         </div>
         
     </div>
@@ -13,13 +13,13 @@
 import BackupTracesDataService from "../services/BackupTracesDataService";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'vue-chartjs'
+import { Pie } from 'vue-chartjs'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default {
     name: "general-status",
     components: {
-        Doughnut
+        Pie
     },
     data() {
         return {
