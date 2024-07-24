@@ -26,9 +26,7 @@
       </div>
     </nav>
 
-    <div class="m-3">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 
   <div id="bottom"></div>

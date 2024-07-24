@@ -1,7 +1,9 @@
 <template>
+  <div class="m-3">
     <h3>Dashboard</h3>
     <BackupsStatus v-if="true"></BackupsStatus>
     <BackupsStatusDoughnut></BackupsStatusDoughnut>
+  </div>
 </template>
 <script>
 

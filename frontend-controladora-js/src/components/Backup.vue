@@ -1,4 +1,5 @@
 <template>
+  <div class="m-3">
     <div v-if="currentTutorial" class="edit-form">
       <h4>Code lines</h4>
     </div>
@@ -56,8 +57,8 @@
       <p><strong>Añadir bloque:</strong></p>
       <input id="add-bloque" @keypress.enter="newBlockAndLine(this.id_backup)" v-model="new_line_block" type="text" class="form-control" placeholder="+ Añadir" aria-label="Username" aria-describedby="basic-addon1">
     </div>
-
-  </template>
+  </div>
+</template>
   
   <script>
   import TutorialDataService from "../services/BackupDataService";

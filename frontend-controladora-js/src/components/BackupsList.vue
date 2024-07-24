@@ -1,4 +1,5 @@
 <template>
+  <div class="m-3">
     <div class="list row">
       <div class="col-md-3">
         <h4>Backups list</h4>
@@ -236,7 +237,8 @@
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import MetadataDataService from "../services/MetadataDataService";
