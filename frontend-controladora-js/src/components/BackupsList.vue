@@ -69,18 +69,18 @@
               <label><strong>Server hostname:</strong></label>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="hostname.com, 192.168.1.15, ..." aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.ip_servidor" required>
+                    v-model="currentMetadata.ip_servidor" required @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
 
               <label><strong>NAS Hostname:</strong></label>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="nashostname.com, 192.168.1.14, ..." aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.ip_nas">
+                    v-model="currentMetadata.ip_nas" @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
               <label><strong>NAS path:</strong></label>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="/path/of/your/backup/in/your/nas" aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.ruta_respaldo">
+                    v-model="currentMetadata.ruta_respaldo" @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
               
               <label><strong>Run As Sudo Header:</strong></label>
@@ -88,13 +88,13 @@
                 <div v-else>{{ currentMetadata.rash="echo $(cat my_pass_file) | sudo -S " }}</div>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="echo $(cat my_pass_file) | sudo -S " aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.rash" required>
+                    v-model="currentMetadata.rash" required @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
 
               <label><strong>Server username:</strong></label>
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="root, alice, bob, ..." aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.user_servidor">
+                    v-model="currentMetadata.user_servidor" @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
 
               <label><strong>SSH Key:</strong></label>
@@ -110,7 +110,7 @@
                     </svg>
                   </button>
 
-                  <button class="btn btn-danger" @click="remove_id_rsa_filename" v-else>
+                  <button class="btn btn-danger" @click="remove_id_rsa_filename(); onMetadataModified()" v-else>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                       <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                     </svg>
@@ -125,19 +125,19 @@
               <label><strong>Server password:</strong></label>
                 <div class="input-group mb-3">
                   <input type="password" class="form-control" placeholder="P4ssw0rd." aria-label="Username" aria-describedby="basic-addon1"
-                    v-model="currentMetadata.pw_servidor">
+                    v-model="currentMetadata.pw_servidor" @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
 
               <label><strong>Server SSH port:</strong></label>
                 <div class="input-group mb-3">
                   <input type="number" class="form-control" placeholder="22" aria-label="Username" aria-describedby="basic-addon1" min="1"
-                    v-model="currentMetadata.port" required>
+                    v-model="currentMetadata.port" required @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
 
               <label><strong>Max retry attempts:</strong></label>
                 <div class="input-group mb-3">
                   <input type="number" class="form-control" placeholder="2" aria-label="Username" aria-describedby="basic-addon1" min="1" max="5"
-                    v-model="currentMetadata.reintentos_maximos" required>
+                    v-model="currentMetadata.reintentos_maximos" required @keypress="onMetadataModified" @change="onMetadataModified">
                 </div>
             </div>
             <div v-if="noMetadataExists">
@@ -157,7 +157,13 @@
                   </button>
                 </router-link>&nbsp;
 
-                <button type="button" class="btn btn-warning" @click="updateMetadata()">
+                <button type="button" class="btn btn-warning" @click="updateMetadata()" v-if="metadata_modified===true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                    <path d="M11 2H9v3h2z"/>
+                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+                  </svg>
+                </button>
+                <button type="button" class="btn btn-secondary" v-if="metadata_modified===false" disabled>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
                     <path d="M11 2H9v3h2z"/>
                     <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
@@ -273,9 +279,16 @@
         currentHistory: null,
         metadata_error: false,
         metadata_success: false,
+        metadata_modified: false,
       };
     },
     methods: {
+
+      onMetadataModified(){
+        this.metadata_modified = true;
+        this.metadata_success = false;
+      },
+
       async checkForFile(){
         // const data = {
         //   "file": this.currentMetadata.file
@@ -322,6 +335,7 @@
         })
         fileReader.readAsDataURL(files[0])
         this.currentMetadata.file = files[0]
+        this.onMetadataModified()
       },
       async getBackupHistory(max){
         var data = {
@@ -531,6 +545,7 @@
         this.metadata_success = false;
         this.currentBackup = tutorial;
         this.currentIndex = tutorial ? index : -1;
+        this.metadata_modified = false;
       },
 
       displaySpinner(tutorial, index) {
@@ -612,6 +627,7 @@
             this.refreshList();
             this.setActiveTutorial(auxCurrentBackup, auxIndex);
             this.metadata_success = true;
+            this.metadata_error = false;
             this.checkForFile();
           })
           .catch(e => {
@@ -626,7 +642,9 @@
             console.log(response.data);
             this.message = 'The metadata was updated successfully!';
             this.metadata_success = true;
+            this.metadata_error = false;
             this.checkForFile();
+            this.metadata_modified = false;
           })
           .catch(e => {
             this.metadata_error = true;
