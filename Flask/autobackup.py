@@ -50,11 +50,15 @@ def main(backup):
 
     #Selecciona la cadena perteneciente al password del respaldo especificado
     cur.execute("SELECT id_rsa_filename from metadatas where id_backup=?", (backup,))
-    id_rsa_filename = "identities/" + cur.fetchone()[0]
+    id_rsa_filename = cur.fetchone()[0]
+    test_logger.info(type(id_rsa_filename))
+    test_logger.info(id_rsa_filename)
     if(id_rsa_filename!=None):
+        id_rsa_filename = "identities/" + id_rsa_filename
         password = ""
         test_logger.info("Logging via SSH key...")
     else:
+
         #Selecciona la cadena perteneciente al password del respaldo especificado
         test_logger.info("Logging via password...")
         cur.execute("SELECT pw_servidor from metadatas where id_backup=?", (backup,))
