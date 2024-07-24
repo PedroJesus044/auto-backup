@@ -85,9 +85,9 @@
               
               <label><strong>Run As Sudo Header:</strong></label>
                 <div v-if="currentMetadata.rash"></div>
-                <div v-else>{{ currentMetadata.rash="echo <P4ssw0rd.> | sudo -S " }}</div>
+                <div v-else>{{ currentMetadata.rash="echo $(cat my_pass_file) | sudo -S " }}</div>
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="echo <password> | sudo -S " aria-label="Username" aria-describedby="basic-addon1"
+                  <input type="text" class="form-control" placeholder="echo $(cat my_pass_file) | sudo -S " aria-label="Username" aria-describedby="basic-addon1"
                     v-model="currentMetadata.rash" required>
                 </div>
 

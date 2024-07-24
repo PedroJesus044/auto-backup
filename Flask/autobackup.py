@@ -21,6 +21,7 @@ else:
     test_logger.addHandler(handler)
 
 def main(backup):
+    global test_logger
     backup_finished = False
     extra = {}
     try:
@@ -48,8 +49,18 @@ def main(backup):
     username = cur.fetchone()[0]
 
     #Selecciona la cadena perteneciente al password del respaldo especificado
-    cur.execute("SELECT pw_servidor from metadatas where id_backup=?", (backup,))
-    password = cur.fetchone()[0]
+    cur.execute("SELECT id_rsa_filename from metadatas where id_backup=?", (backup,))
+    id_rsa_filename = "identities/" + cur.fetchone()[0]
+    if(id_rsa_filename!=None):
+        password = ""
+        test_logger.info("Logging via SSH key...")
+    else:
+        #Selecciona la cadena perteneciente al password del respaldo especificado
+        test_logger.info("Logging via password...")
+        cur.execute("SELECT pw_servidor from metadatas where id_backup=?", (backup,))
+        password = cur.fetchone()[0]
+        if(password==""):
+            test_logger.info("Empty password")
 
     #Selecciona la cadena perteneciente al puerto del respaldo especificado
     cur.execute("SELECT port from metadatas where id_backup=?", (backup,))
@@ -66,7 +77,6 @@ def main(backup):
     #No seleccionaremos la cantidad de bloques, en vez de eso seleccionaremos los distintos no_bloques
     cur.execute("SELECT DISTINCT no_bloque as block_array from codigos where id_backup=? ORDER BY block_array", (backup,))
     array_bloques = cur.fetchall()
-    global test_logger
 
     #Selecciona la cantidad de reintentos
     cur.execute("SELECT reintentos_maximos from metadatas where id_backup=?", (backup,))
@@ -118,10 +128,10 @@ def main(backup):
                 
                 if(TRAINING == False):
                     if(paralelo):
-                        if(phantasm.parallel_execute(aux, hostname, username, password, port, extra)!=0):
+                        if(phantasm.parallel_execute(aux, hostname, username, id_rsa_filename, password, port, extra)!=0):
                             errores = True
                     else:
-                        if(phantasm.secuential_execute(aux, hostname, username, password, port, extra)!=0):
+                        if(phantasm.secuential_execute(aux, hostname, username, id_rsa_filename, password, port, extra)!=0):
                             errores = True
                 else:
                     command_book.append(aux)

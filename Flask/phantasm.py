@@ -11,14 +11,21 @@ logger = logging.getLogger(__name__)
 
 estados = []
 status = 0
-def execute_dedicated_here(command, hostname, username, password, port, extra):
+def execute_dedicated_here(command, hostname, username, id_rsa_filename, password, port, extra):
     #Hazte un cliente paramiko nuevo, a fuerzas
     #Tiene que ser nuevo
     #Nuevo!!!!
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        client.connect(hostname=hostname, username=username, password=password, port=port)
+        #client.connect(hostname=hostname, username=username, password=password, port=port)
+        if(id_rsa_filename):
+            logger.info(id_rsa_filename)
+            logger.info("Attempting SSH key execution: " + id_rsa_filename)
+            client.connect(hostname=hostname, username=username, key_filename=id_rsa_filename, port=port)
+        else:
+            logger.info("Attempting SSH pass execution")
+            client.connect(hostname=hostname, username=username, password=password, port=port)
 
         #logging.info("Ejecutando los comandos por SSH...")
         
@@ -32,14 +39,14 @@ def execute_dedicated_here(command, hostname, username, password, port, extra):
         logger.critical("[!] Cannot connect to the SSH Server", extra=extra)
         raise Exception('Fallo al ejecutar execute_dedicated - ' + repr(e))
     
-def parallel_execute(commands, hostname, username, password, port, extra):
+def parallel_execute(commands, hostname, username, id_rsa_filename, password, port, extra):
     try:
         global status, estados
         status = 0
         estados = []
         threads = []
         for i in commands:
-            threads.append(Thread(target = execute_dedicated_here, args=(i, hostname, username, password, port, extra)))
+            threads.append(Thread(target = execute_dedicated_here, args=(i, hostname, username, id_rsa_filename, password, port, extra)))
         
         for t in threads:
             t.start()
@@ -78,12 +85,18 @@ def parallel_execute(commands, hostname, username, password, port, extra):
         raise Exception("[!] No se pudo ejecutar parallel_execute")'''
 
 #Este comando te va a ejecutar tantos comandos como quieras de forma secuencial.
-def secuential_execute(commands, hostname, username, password, port, extra):
+def secuential_execute(commands, hostname, username, id_rsa_filename, password, port, extra):
     #Abrir el cliente del servidor a respaldar
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        client.connect(hostname=hostname, username=username, password=password, port=port)
+        if(id_rsa_filename):
+            logger.info(id_rsa_filename)
+            logger.info("Attempting SSH key execution: " + id_rsa_filename)
+            client.connect(hostname=hostname, username=username, key_filename=id_rsa_filename, port=port)
+        else:
+            logger.info("Attempting SSH pass execution")
+            client.connect(hostname=hostname, username=username, password=password, port=port)
         #logging.info("Ejecutando los comandos por SSH...")
         status = executor.execute(client, commands, extra)
         client.close()
