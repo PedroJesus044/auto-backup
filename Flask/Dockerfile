@@ -29,5 +29,5 @@ RUN pip install -U "pip>=19.3.1" && \
 EXPOSE 5000
 
 # Run the application
-CMD ["sleep", "inf"]
-#CMD ["flask", "run", "--host=0.0.0.0"]
+#CMD ["sleep", "inf"]
+CMD ["flask", "run", "--host=0.0.0.0"]
