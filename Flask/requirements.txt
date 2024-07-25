@@ -1,4 +1,5 @@
 paramiko
-python-logstash
 mariadb
+python-logstash
+Flask
 Werkzeug
