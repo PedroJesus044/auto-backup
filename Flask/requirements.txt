@@ -1,5 +1,0 @@
-paramiko
-mariadb
-python-logstash
-Flask
-Werkzeug
