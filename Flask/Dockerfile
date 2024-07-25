@@ -24,7 +24,7 @@ ENV TZ=America/Mexico_City
 
 # Install the dependencies
 RUN pip install -U "pip>=19.3.1" && \
-    pip install -r requirements.txt &&
+    pip install -r requirements.txt
 
 EXPOSE 5000
 
