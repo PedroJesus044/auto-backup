@@ -6,7 +6,7 @@ USER 0
 RUN curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash
 RUN yum update -y
 RUN yum install -y mariadb-connector-c
-ADD ./* ./
+COPY . .
 WORKDIR /opt/app-root/src
 RUN chown -R 1001:0 ./
 USER 1001
