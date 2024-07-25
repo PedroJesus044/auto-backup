@@ -1,4 +1,4 @@
-FROM ubi9/python-311
+FROM ubi8/python-311
 
 # Add application sources with correct permissions for OpenShift
 USER 0
