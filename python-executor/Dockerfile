@@ -7,7 +7,7 @@ RUN curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash
 RUN yum update -y
 RUN yum install -y mariadb-connector-c
 ADD Flask .
-WORKDIR /opt/app-root/src
+WORKDIR /opt/app-root/src/Flask
 RUN chown -R 1001:0 ./
 USER 1001
 
