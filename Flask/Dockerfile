@@ -5,7 +5,7 @@ USER 0
 #RUN dnf install -y curl
 RUN curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash
 RUN yum update -y
-RUN yum install -y libmariadb3 libmariadb-dev
+RUN yum install -y mariadb-connector-c
 ADD . .
 RUN chown -R 1001:0 ./
 USER 1001
