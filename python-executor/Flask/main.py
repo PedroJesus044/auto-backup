@@ -74,5 +74,5 @@ def upload_file():
         return "Failure: " + str(repr(e)), 500, {'Access-Control-Allow-Origin': '*'}
     
 @app.route("/health")
-def hello_world():
+def health_status():
     return "[ALL OK]", 200, {'Access-Control-Allow-Origin': '*'}
