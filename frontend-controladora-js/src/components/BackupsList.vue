@@ -299,7 +299,7 @@
           console.log("[INFO] Saving to Flask");
           console.log(this.currentMetadata.file);
         
-          let baseURL = `http://10.22.165.29:5000/id_rsa_file`;
+          let baseURL = process.env.VUE_APP_ABKP_FLASK_BASEURL+`/id_rsa_file`;
           axios.create({
               baseURL: baseURL,
               headers: {
@@ -486,7 +486,7 @@
       async runBackup(index){
         this.status[index] = '[RUNNING]';
         
-        let baseURL = `http://10.22.165.29:5000/?id=${this.currentBackup.id}`;
+        let baseURL = process.env.VUE_APP_ABKP_FLASK_BASEURL+`/?id=${this.currentBackup.id}`;
         axios.create({
             baseURL: baseURL,
             headers: {
