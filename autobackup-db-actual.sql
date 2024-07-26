@@ -31,7 +31,7 @@ CREATE TABLE `backup_traces` (
   PRIMARY KEY (`id`),
   KEY `backup_traces_backups_FK` (`id_backup`),
   CONSTRAINT `backup_traces_backups_FK` FOREIGN KEY (`id_backup`) REFERENCES `backups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1738 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1532,7 +1532,15 @@ INSERT INTO `backup_traces` VALUES
 (1726,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
 (1727,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
 (1728,70,'[RUNNING]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
-(1729,70,'[NOT OK]','2024-07-19 12:26:21','2024-07-19 12:26:21');
+(1729,70,'[NOT OK]','2024-07-19 12:26:21','2024-07-19 12:26:21'),
+(1730,70,'[RUNNING]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1731,70,'[RUNNING]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1732,70,'[RUNNING]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1733,70,'[RUNNING]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1734,70,'[RUNNING]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1735,70,'[NOT OK]','2024-07-26 16:57:44','2024-07-26 16:57:44'),
+(1736,70,'[RUNNING]','2024-07-26 16:58:48','2024-07-26 16:58:48'),
+(1737,70,'[ALL OK]','2024-07-26 16:58:52','2024-07-26 16:58:52');
 /*!40000 ALTER TABLE `backup_traces` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1686,7 +1694,7 @@ CREATE TABLE `file_traces` (
   PRIMARY KEY (`id`),
   KEY `file_traces_backups_FK` (`id_backup`),
   CONSTRAINT `file_traces_backups_FK` FOREIGN KEY (`id_backup`) REFERENCES `backups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=948 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=950 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2234,7 +2242,9 @@ INSERT INTO `file_traces` VALUES
 (944,70,'/root/adios_mundo.txt',5242884,'2024-07-17 13:24:42','2024-07-17 13:24:42'),
 (945,70,'hola_mundo.txt',204800,'2024-07-17 13:24:42','2024-07-17 13:24:42'),
 (946,70,'/root/adios_mundo.txt',5242884,'2024-07-19 12:25:59','2024-07-19 12:25:59'),
-(947,70,'hola_mundo.txt',204800,'2024-07-19 12:25:59','2024-07-19 12:25:59');
+(947,70,'hola_mundo.txt',204800,'2024-07-19 12:25:59','2024-07-19 12:25:59'),
+(948,70,'/root/adios_mundo.txt',5242884,'2024-07-26 16:58:51','2024-07-26 16:58:51'),
+(949,70,'hola_mundo.txt',204800,'2024-07-26 16:58:51','2024-07-26 16:58:51');
 /*!40000 ALTER TABLE `file_traces` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2273,7 +2283,7 @@ CREATE TABLE `metadatas` (
 LOCK TABLES `metadatas` WRITE;
 /*!40000 ALTER TABLE `metadatas` DISABLE KEYS */;
 INSERT INTO `metadatas` VALUES
-(40,70,'','10.22.165.29','','echo <Pr0c3s0.> | sudo -S ','','',2224,5,'2024-06-20 18:25:40','2024-07-19 22:13:33','python_identity.id_rsa'),
+(40,70,'','10.22.165.29','','echo <Pr0c3s0.> | sudo -S ','root','Pr0c3s0.',2224,5,'2024-06-20 18:25:40','2024-07-26 22:58:47',NULL),
 (51,83,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:13:10','2024-06-28 22:03:25',NULL),
 (52,84,'','10.22.165.29','','echo Pr0c3s0. | sudo -S ','usuario','Pr0c3s0.',2224,1,'2024-06-27 17:14:29','2024-07-01 19:48:10',NULL),
 (53,85,'','10.22.165.29','','echo <P4ssw0rd.> | sudo -S ','root','Pr0c3s0.',2224,1,'2024-06-27 17:14:55','2024-06-27 18:08:45',NULL),
@@ -2357,4 +2367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-19 17:51:48
+-- Dump completed on 2024-07-26 16:59:24

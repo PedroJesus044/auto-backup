@@ -108,7 +108,7 @@ services:
       - NODE_ENV=production
       #Cors options
       - EXPRESS_CORS_OPTIONS=*
-      - ABKP_DB_HOST=auto-backup-mariadb-1
+      - ABKP_DB_HOST=10.22.165.29
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
@@ -131,11 +131,7 @@ services:
     environment:
       - NODE_ENV=development
       - ALLOWED_HOSTS=auto-backup-vuejs-1
-   #Modo desarrollo
-      #- VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
-      #- VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
-   #Modo buildeo para producción
-      - VUE_APP_ABKP_AXIOS_BASEURL=http://auto-backup-express-git:8080/api
+      - VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
       - VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
       - TZ=America/Mexico_City
     volumes:
