@@ -83,8 +83,7 @@ services:
       - FLASK_APP=main
       - FLASK_ENV=development
       #Cors options
-      #- FLASK_CORS_OPTIONS='*'
-      - FLASK_CORS_OPTIONS=*,http://localhost:8080,https://localhost:8080,http://auto-backup-vuejs-1:8081,http://10.22.165.29:8081,http://10.22.165.29:5000
+      - FLASK_CORS_OPTIONS=http://auto-backup-vuejs-1:8081
       - ABKP_DB_HOST=auto-backup-mariadb-1
       - ABKP_DB_USER=auto-backup
       - ABKP_DB_PASS=auto-backup
@@ -93,7 +92,7 @@ services:
     command: flask run --host=0.0.0.0
     expose:
       - "5000"
-    ports: #De momento se debe mapear el puerto. Posible cors issue
+    ports: #Mapear el puerto
       - "5000:5000"
 
 #API que conecta la base de datos con el frontend
@@ -117,7 +116,7 @@ services:
       - ./backend-controladora-js/express/:/home/node/app
     expose:
       - "8080"
-    ports: #De momento se deben mapear los puertos
+    ports: #Mapear el puerto
       - "8080:8080"
     command: "node server.js"
 

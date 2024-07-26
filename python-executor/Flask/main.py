@@ -8,11 +8,14 @@ app = Flask(__name__)
 
 app.secret_key = "super secret key"
 
+flask_cors_options = os.environ['FLASK_CORS_OPTIONS']
+
 @app.route("/")
 def hello_world():
     try:
-        flask_cors_options = ['*', 'http://localhost:8080', 'https://localhost:8080', 'http://auto-backup-vuejs-1:8081', 'http://10.22.165.29:8081', 'http://auto-backup-express-1:8080', 'http://10.22.165.29:5000']
-        flask_cors_options = '*'
+        global flask_cors_options
+        #flask_cors_options = ['*', 'http://localhost:8080', 'https://localhost:8080', 'http://auto-backup-vuejs-1:8081', 'http://10.22.165.29:8081', 'http://auto-backup-express-1:8080', 'http://10.22.165.29:5000']
+        #flask_cors_options = '*'
         id_backup = request.args.get('id')
 
         resultado = autobackup.main(id_backup)
@@ -25,12 +28,12 @@ def hello_world():
             codigo = 200
 
         #return resultado, codigo, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS'].split(",")}
-        return resultado, codigo, {'Access-Control-Allow-Origin': '*'}
+        return resultado, codigo, {'Access-Control-Allow-Origin': flask_cors_options}
         
         #Ojo: Debemos poner el cors apuntando al origen del axios
     except:
         #return 'Flask', 200, {'Access-Control-Allow-Origin':os.environ['FLASK_CORS_OPTIONS'].split(",")}
-        return resultado, codigo, {'Access-Control-Allow-Origin': '*'}
+        return resultado, codigo, {'Access-Control-Allow-Origin': flask_cors_options}
 
 UPLOAD_FOLDER = 'identities/'
 ALLOWED_EXTENSIONS = {'.id_rsa', 'id_rsa'}
@@ -44,22 +47,23 @@ def allowed_file(filename):
 @app.route('/id_rsa_file', methods=['GET', 'POST'])
 def upload_file():
     try:
+        global flask_cors_options
         if request.method == 'POST':
             # check if the post request has the file part
             if 'file' not in request.files:
                 flash('No file part')
-                return "No hay file part", 200, {'Access-Control-Allow-Origin': '*'}
+                return "No hay file part", 200, {'Access-Control-Allow-Origin': flask_cors_options}
             file = request.files['file']
             # If the user does not select a file, the browser submits an
             # empty file without a filename.
             if file.filename == '':
                 #flash('No selected file')
-                return "Archivo vacío", 200, {'Access-Control-Allow-Origin': '*'}
+                return "Archivo vacío", 200, {'Access-Control-Allow-Origin': flask_cors_options}
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return "[FILE: " + filename + "]", 200, {'Access-Control-Allow-Origin': '*'}
-            return "No if", 200, {'Access-Control-Allow-Origin': '*'}
+                return "[FILE: " + filename + "]", 200, {'Access-Control-Allow-Origin': flask_cors_options}
+            return "No if", 200, {'Access-Control-Allow-Origin': flask_cors_options}
         resultado =  '''
         <!doctype html>
         <title>Upload new File</title>
@@ -69,10 +73,11 @@ def upload_file():
         <input type=submit value=Upload>
         </form>
         '''
-        return resultado, 200, {'Access-Control-Allow-Origin': '*'}
+        return resultado, 200, {'Access-Control-Allow-Origin': flask_cors_options}
     except Exception as e:
-        return "Failure: " + str(repr(e)), 500, {'Access-Control-Allow-Origin': '*'}
+        return "Failure: " + str(repr(e)), 500, {'Access-Control-Allow-Origin': flask_cors_options}
     
 @app.route("/health")
 def health_status():
-    return "[ALL OK]", 200, {'Access-Control-Allow-Origin': '*'}
+    global flask_cors_options
+    return "[ALL OK]", 200, {'Access-Control-Allow-Origin': flask_cors_options}

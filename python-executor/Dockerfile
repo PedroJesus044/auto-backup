@@ -27,7 +27,7 @@ ENV FLASK_APP=main
 ENV FLASK_ENV=development
 #Cors options
 #- FLASK_CORS_OPTIONS='*'
-ENV FLASK_CORS_OPTIONS=*,http://localhost:8080,https://localhost:8080,http://auto-backup-vuejs-1:8081,http://10.22.165.29:8081,http://10.22.165.29:5000
+ENV FLASK_CORS_OPTIONS=*
 ENV ABKP_DB_HOST=mariadbabkp
 ENV ABKP_DB_USER=mariadb
 ENV ABKP_DB_PASS=mariadb
