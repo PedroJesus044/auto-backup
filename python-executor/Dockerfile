@@ -15,11 +15,12 @@ RUN pip install -r requirements.txt
 USER 0
 ADD Flask .
 WORKDIR /opt/app-root/src/Flask
-ADD Flask/identities .
-ADD Flask/log .
+RUN mkdir identities
+RUN mkdir log
+RUN touch log/log_general.log
 RUN chown -R 1001:0 ./
-USER 1001
 
+USER 1001
 ENV FLASK_APP=main
 ENV FLASK_ENV=development
 #Cors options
