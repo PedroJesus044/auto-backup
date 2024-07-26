@@ -72,3 +72,7 @@ def upload_file():
         return resultado, 200, {'Access-Control-Allow-Origin': '*'}
     except Exception as e:
         return "Failure: " + str(repr(e)), 500, {'Access-Control-Allow-Origin': '*'}
+    
+@app.route("/health")
+def hello_world():
+    return "[ALL OK]", 200, {'Access-Control-Allow-Origin': '*'}
