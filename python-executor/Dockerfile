@@ -13,7 +13,7 @@ ADD requirements.txt .
 RUN pip install -r requirements.txt
 
 USER 0
-ADD Flask .
+ADD Flask ./Flask
 WORKDIR /opt/app-root/src/Flask
 RUN mkdir identities
 RUN mkdir log
