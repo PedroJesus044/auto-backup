@@ -14,9 +14,9 @@ RUN pip install -r requirements.txt
 
 USER 0
 ADD Flask .
-ADD Flask/identities .Flask
-ADD Flask/log .Flask
 WORKDIR /opt/app-root/src/Flask
+ADD Flask/identities .
+ADD Flask/log .
 RUN chown -R 1001:0 ./
 USER 1001
 
