@@ -18,7 +18,9 @@ WORKDIR /opt/app-root/src/Flask
 RUN mkdir identities
 RUN mkdir log
 RUN touch log/log_general.log
-RUN chown -R 1001:0 ./
+
+RUN chgrp -R 0 ./ && \
+    chmod -R g=u ./
 
 USER 1001
 ENV FLASK_APP=main
@@ -37,3 +39,4 @@ EXPOSE 5000
 # Run the application
 CMD ["sleep", "inf"]
 #CMD ["flask", "run", "--host=0.0.0.0"]
+#flask run --host=0.0.0.0
