@@ -6,6 +6,13 @@ USER 0
 RUN curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash
 RUN yum update -y
 RUN yum install -y mariadb-connector-c
+
+# Install the dependencies
+USER 1001
+ADD requirements.txt .
+RUN pip install -r requirements.txt
+
+USER 0
 ADD Flask .
 WORKDIR /opt/app-root/src/Flask
 RUN chown -R 1001:0 ./
@@ -21,9 +28,6 @@ ENV ABKP_DB_USER=mariadb
 ENV ABKP_DB_PASS=mariadb
 ENV ABKP_DB_NAME=mariadb
 ENV TZ=America/Mexico_City
-
-# Install the dependencies
-RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
