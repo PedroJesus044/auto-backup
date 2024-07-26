@@ -37,6 +37,6 @@ ENV TZ=America/Mexico_City
 EXPOSE 5000
 
 # Run the application
-CMD ["sleep", "inf"]
-#CMD ["flask", "run", "--host=0.0.0.0"]
+#CMD ["sleep", "inf"]
+CMD ["flask", "run", "--host=0.0.0.0"]
 #flask run --host=0.0.0.0
