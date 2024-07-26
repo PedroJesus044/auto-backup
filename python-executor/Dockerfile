@@ -26,7 +26,6 @@ USER 1001
 ENV FLASK_APP=main
 ENV FLASK_ENV=development
 #Cors options
-#- FLASK_CORS_OPTIONS='*'
 ENV FLASK_CORS_OPTIONS=*
 ENV ABKP_DB_HOST=mariadbabkp
 ENV ABKP_DB_USER=mariadb
