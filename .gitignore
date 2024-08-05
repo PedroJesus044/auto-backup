@@ -128,3 +128,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+#Mariadb volume
+mariadb-datadir
+
+#Flask
+.venv
+__pycache__
+flask-identities

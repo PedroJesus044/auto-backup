@@ -73,6 +73,9 @@ services:
       - "3306"
     ports:
       - "3306:3306"
+    volumes:
+      - ./mariadb-datadir:/var/lib/mysql
+      #- ./autobackup-db-actual.sql:/autobackup-db-actual.sql
 
 #Flask, funciona de igual forma que una API normal como lo es Express
   flask:
@@ -94,6 +97,8 @@ services:
       - "5000"
     ports: #Mapear el puerto
       - "5000:5000"
+    volumes:
+      - ./flask-identities:/usr/src/app/identities
 
 #API que conecta la base de datos con el frontend
 #Usa Sequelize
