@@ -1,4 +1,4 @@
-FROM node:22.2.0 as build-stage
+FROM node:18.20.4 as build-stage
 
 #ENV
 ENV NODE_ENV=production
