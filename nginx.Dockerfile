@@ -1,7 +1,8 @@
-FROM node:18.20.4 as build-stage
+FROM node as build-stage
 
 #ENV
-ENV NODE_ENV=production
+#NODE_ENV=development es importante para que genere todas las dependencias que necesita
+ENV NODE_ENV=development
 ENV ALLOWED_HOSTS=auto-backup-vuejs-1
 ENV VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
 ENV VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
@@ -11,7 +12,7 @@ ENV TZ=America/Mexico_City
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
-COPY ./frontend-controladora-js/package*.json ./
+COPY ./frontend-controladora-js/package*.json .
 
 # install project dependencies
 RUN npm install
