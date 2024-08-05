@@ -107,7 +107,6 @@ services:
       context: .
       dockerfile: express.Dockerfile
     user: "node"
-    working_dir: /home/node/app
     environment:
       - NODE_ENV=production
       #Cors options
@@ -117,13 +116,12 @@ services:
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
       - TZ=America/Mexico_City
-    volumes:
-      - ./backend-controladora-js/express/:/home/node/app
     expose:
       - "8080"
     ports: #Mapear el puerto
       - "8080:8080"
     command: "node server.js"
+    #command: "sleep inf"
 
 #Frontend para desarrollo
   vuejs:
@@ -143,6 +141,8 @@ services:
     ports: #Mapear este puerto para ver la consola
       - "8081:8081"
     command: "npm run serve"
+    profiles:
+      - donotstart
 
 #Frontend para producción 2
   nginx:
