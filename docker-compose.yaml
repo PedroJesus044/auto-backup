@@ -143,9 +143,6 @@ services:
     ports: #Mapear este puerto para ver la consola
       - "8081:8081"
     command: "npm run serve"
-    
-    profiles:
-      - donotstart
 
 #Frontend para producción 2
   nginx:
@@ -159,3 +156,5 @@ services:
       - VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
       - VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
       - TZ=America/Mexico_City
+    profiles:
+      - donotstart
