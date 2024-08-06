@@ -1,5 +1,6 @@
 module.exports = app => {
   const metadata = require("../controllers/metadatas.controller.js");
+  const verifyToken = require("../middleware/authMiddleware.js");
 
   var router = require("express").Router();
 
@@ -27,5 +28,5 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", metadata.deleteAll);
 
-  app.use('/api/metadatas', router);
+  app.use('/api/metadatas', verifyToken ,router);
 };

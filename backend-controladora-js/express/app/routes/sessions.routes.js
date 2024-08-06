@@ -1,5 +1,6 @@
 module.exports = app => {
   const user = require("../controllers/sessions.controller.js");
+  const verifyToken = require("../middleware/authMiddleware.js");
 
   var router = require("express").Router();
 
@@ -26,7 +27,7 @@ module.exports = app => {
 
   router.post("/login", user.login);
 
-  router.post("/register", user.register);
+  router.post("/register", verifyToken ,user.register);
 
   app.use('/api/sessions', router);
 };

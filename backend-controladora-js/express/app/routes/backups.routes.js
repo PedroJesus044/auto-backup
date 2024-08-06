@@ -1,5 +1,6 @@
 module.exports = app => {
   const backup = require("../controllers/backups.controller.js");
+  const verifyToken = require("../middleware/authMiddleware.js");
 
   var router = require("express").Router();
 
@@ -21,5 +22,5 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", backup.deleteAll);
 
-  app.use('/api/backups', router);
+  app.use('/api/backups', verifyToken ,router);
 };

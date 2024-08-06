@@ -37,7 +37,7 @@ import SessionDataService from '@/services/SessionDataService';
             .then(response => {
               if (response.status === 200 && 'username' in response.data) {
                 console.log(response.data);
-                sessionStorage.setItem("token", "fewuoibfeiwbslwl");
+                sessionStorage.setItem("token", response.data.token);
                 sessionStorage.setItem("role", response.data.role);
                 sessionStorage.setItem("username", response.data.username);
                 this.$router.push('/backups');

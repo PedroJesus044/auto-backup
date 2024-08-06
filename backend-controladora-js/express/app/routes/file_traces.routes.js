@@ -1,5 +1,6 @@
 module.exports = app => {
   const codigo = require("../controllers/file_traces.controller.js");
+  const verifyToken = require("../middleware/authMiddleware.js");
 
   var router = require("express").Router();
 
@@ -39,5 +40,5 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", codigo.deleteAll);
 
-  app.use('/api/file_traces', router);
+  app.use('/api/file_traces', verifyToken ,router);
 };

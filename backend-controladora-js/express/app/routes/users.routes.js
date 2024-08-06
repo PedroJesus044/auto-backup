@@ -1,5 +1,6 @@
 module.exports = app => {
   const user = require("../controllers/users.controller.js");
+  const verifyToken = require("../middleware/authMiddleware.js");
 
   var router = require("express").Router();
 
@@ -24,5 +25,5 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", user.deleteAll);
 
-  app.use('/api/users', router);
+  app.use('/api/users', verifyToken ,router);
 };
