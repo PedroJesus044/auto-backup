@@ -24,7 +24,9 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", user.deleteAll);
 
-  router.post("/login", user.login)
+  router.post("/login", user.login);
+
+  router.post("/register", user.register);
 
   app.use('/api/sessions', router);
 };

@@ -1,5 +1,6 @@
 const { or } = require("sequelize");
 const db = require("../models");
+const bcrypt = require('bcrypt');
 const Session = db.session;
 const User = db.user;
 const Op = db.Sequelize.Op;
@@ -183,4 +184,16 @@ exports.login = (req, res) => {
           err.message || "Some error occurred while retrieving tutorials."
       });
   });
+};
+
+exports.register = async (req, res) => {
+    const { username, password, role } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const data = { username, password: hashedPassword, role };
+    User.create(data).then(data => {
+      res.status(201).json({ message: 'User registered successfully' });
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Registration failed' });
+    });
 };
