@@ -1,6 +1,7 @@
 FROM ubi9/nodejs-18
 ADD express .
 
+ENV JWT_SECRET=1ADDFDE67C
 ENV NODE_ENV=production
 #No sirve
 ENV EXPRESS_CORS_OPTIONS=*
