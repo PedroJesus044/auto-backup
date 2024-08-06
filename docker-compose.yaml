@@ -116,6 +116,7 @@ services:
       - ABKP_DB_PASS=auto-backup
       - ABKP_DB_NAME=auto-backup
       - TZ=America/Mexico_City
+      - JWT_SECRET=1ADDFDE67C
     expose:
       - "8080"
     ports: #Mapear el puerto

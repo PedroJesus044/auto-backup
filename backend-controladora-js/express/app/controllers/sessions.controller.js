@@ -1,6 +1,7 @@
 const { or } = require("sequelize");
 const db = require("../models");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Session = db.session;
 const User = db.user;
 const Op = db.Sequelize.Op;
@@ -169,7 +170,7 @@ exports.getMetadataFromBackup = (req, res) => {
     });
 };
 
-exports.login = (req, res) => {
+exports.login_old = (req, res) => {
   var condition = {
     username: req.body.email,
     password: req.body.password
@@ -186,6 +187,32 @@ exports.login = (req, res) => {
   });
 };
 
+exports.login = async (req, res) => {
+  var condition = {
+    username: req.body.email
+  };
+
+  let password = req.body.password;
+
+  User.findOne({ where: condition })
+    .then(async data => {
+      const passwordMatch = await bcrypt.compare(password, data.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'Authentication failed' });
+      }else{
+        const token = jwt.sign({ userId: data.id }, process.env.JWT_SECRET, {
+          expiresIn: '1h',
+        });
+        res.status(200).json({ token, username: data.username, role: data.role });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Authentication failed"
+      });
+  });
+};
 exports.register = async (req, res) => {
     const { username, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
