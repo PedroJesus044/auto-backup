@@ -9,6 +9,7 @@ ENV VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
 ENV TZ=America/Mexico_City
 
 # make the 'app' folder the current working directory
+USER 0
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
@@ -23,6 +24,7 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
+RUN chgrp -R 0 /app && chmod -R g+rwX /app
 
 ############################################################################################################################
 
