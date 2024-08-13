@@ -7,7 +7,7 @@ ENV ALLOWED_HOSTS=auto-backup-vuejs-1
 #ENV VUE_APP_ABKP_AXIOS_BASEURL=http://10.22.165.29:8080/api
 #ENV VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
 ENV VUE_APP_ABKP_AXIOS_BASEURL=https://express-auto-backup-git-autobackup.apps.ocpprod.pjedomex.gob.mx/api
-ENV VUE_APP_ABKP_FLASK_BASEURL=http://10.22.165.29:5000
+ENV VUE_APP_ABKP_FLASK_BASEURL=https://flask-auto-backup-git-autobackup.apps.ocpprod.pjedomex.gob.mx/
 ENV TZ=America/Mexico_City
 
 # make the 'app' folder the current working directory
