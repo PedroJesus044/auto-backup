@@ -5,12 +5,12 @@ import logstash, sys, os
 import mariadb
 
 #Logger para logstash
-host = 'localhost'
+host = 'elasticsearch'
 global test_logger
 test_logger = logging.getLogger()
 test_logger.setLevel(logging.INFO)
 
-log_to_logstash = False
+log_to_logstash = True
 TRAINING = False
 if(log_to_logstash):
     handler = logstash.LogstashHandler(host, 5000, version=1)
