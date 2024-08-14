@@ -5,7 +5,7 @@ import logstash, sys, os
 import mariadb
 
 #Logger para logstash
-host = 'elasticsearch'
+host = 'rsyslog-ekl-git'
 global test_logger
 test_logger = logging.getLogger()
 test_logger.setLevel(logging.INFO)
