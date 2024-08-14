@@ -5,17 +5,18 @@ import logstash, sys, os
 import mariadb
 
 #Logger para logstash
-host = 'rsyslog-ekl-git'
+host = os.environ['LOGSTASH_HOST']
+port = int(os.environ['LOGSTASH_PORT'])
 global test_logger
 test_logger = logging.getLogger()
 test_logger.setLevel(logging.INFO)
 
-log_to_logstash = True
+log_to_logstash = os.environ['LOG_TO_LOGSTASH']
 TRAINING = False
-if(log_to_logstash):
-    handler = logstash.LogstashHandler(host, 5000, version=1)
+if(log_to_logstash=='true'):
+    handler = logstash.LogstashHandler(host, port, version=1)
     test_logger.addHandler(handler)
-else:
+elif (log_to_logstash=='false'):
     handler = logging.FileHandler('log/log_general.log', 'a', 'utf-32')
     test_logger.setLevel(logging.DEBUG)
     test_logger.addHandler(handler)
