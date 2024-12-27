@@ -12,5 +12,5 @@ ENV TZ=America/Mexico_City
 
 WORKDIR /app
 COPY backend-controladora-js/express/package*.json /app
-RUN npm install
+RUN npm install -g npm@6
 COPY backend-controladora-js/express/ /app

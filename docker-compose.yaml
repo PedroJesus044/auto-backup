@@ -82,6 +82,7 @@ services:
     build:
       context: .
       dockerfile: flask.Dockerfile
+      network: host
     environment:
       - FLASK_APP=main
       - FLASK_ENV=development
@@ -99,6 +100,7 @@ services:
       - "5000:5000"
     volumes:
       - ./flask-identities:/usr/src/app/identities
+    
 
 #API que conecta la base de datos con el frontend
 #Usa Sequelize
@@ -106,6 +108,7 @@ services:
     build:
       context: .
       dockerfile: express.Dockerfile
+      network: host
     user: "node"
     environment:
       - NODE_ENV=production
